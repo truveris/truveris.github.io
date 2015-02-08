@@ -33,9 +33,11 @@ make
 
 
 ## Publish the static site to our GitHub user page
-Do your update, commit, push then publish:
+Edit, commit, publish:
 
 ```shell
+vim site/things.html
+git commit -am "Updated Jimmy's email."
 make publish
 ```
 
