@@ -25,7 +25,7 @@ make serve
 
 
 ## Build the static site
-Generates all the file in the root directory:
+Generates the full site into the `output/` directory:
 
 ```shell
 make
@@ -41,14 +41,14 @@ make publish
 
 
 ## Adding a new author
-Create a new folder named after your GitHub account in the `src/authors/`
+Create a new folder named after your GitHub account in the `authors/`
 folder and create the following files:
  * **name**: your full name
  * **email**: your email address
 
 
 ## Adding a new article
-Create a new folder in the `src/site/posts/` folder and create the following files:
+Create a new folder in the `site/articles/` folder and create the following files:
  * **author**: must contain your GitHub account name. A matching folder is
        required with meta data as defined above.
  * **illustration**: name of a file located in `site/lib/img/` used in the
@@ -70,3 +70,9 @@ If you need to extend the site outside of the above, create an `index.html` in
 a folder within the `site/` folder.  It is important to come up with a simple
 dash-separated name since it will be used as its permanent URL for the rest of
 time.
+
+
+## Updating the CSS
+Since we use SCSS/SASS for all our stylesheets, you should never touch a CSS
+file in this project. Once you are done playing with the .scss file, just run
+`make css` from the root folder.
