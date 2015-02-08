@@ -21,7 +21,7 @@
 
         <!-- JS -->
         <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
-        <script type="text/javascript">stLight.options({publisher: "ur-bd6ecc7d-a28e-7a33-9fa5-a9f85b7af5fe", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+        <script type="text/javascript">stLight.options({publisher: "ur-bd6ecc7d-a28e-7a33-9fa5-a9f85b7af5fe", doNotHash: false, doNotCopy: true, hashAddressBar: false});</script>
 
         <!-- Social -->
         <link href="https://plus.google.com/+Truverisprescriptions" rel="publisher">
