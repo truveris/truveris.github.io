@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+	<title>truveris.github.io</title>
+	<subtitle>Truveris engineering blog</subtitle>
+	<link href="https://truveris.github.io/atom.xml" rel="self" />
+	<link href="https://truveris.github.io/" />
+	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
+	<updated>2015-02-02T12:00:00</updated>
+
+	<entry>
+		<title>Locust</title>
+		<link href="https://truveris.github.io/articles/locust/" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2015-02-02T12:00:00</updated>
+		<summary>Introduction to testing web applications using locust; replacing users with small scripts.</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				In my search for a scalable, session based, highly configurable load testing
+tool, I happened upon Locust.  Looking for something between the lightweight
+but pure throughput testing of <em>ab</em> and full on virtual machine scripted
+browser transactions.  Locust looked to fit the bill, and so far has done
+everything I have needed, both for quasi-functional testing as well as
+benchmarking API endpoints.  A great departure from the normal heavyweight
+<em>The Grinder</em>, Locust provided a lightweight, yet totally functional
+approach to user emulation testing.
+
+			</div>
+		</content>
+		<author>
+			<name>Dan Lloyd</name>
+			<email>dlloyd@truveris.com</email>
+		</author>
+	</entry>
+
+</feed>
