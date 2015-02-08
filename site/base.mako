@@ -41,7 +41,7 @@
         <meta property="og:image" content="/lib/img/${self.illustration()}">
     </head>
 
-    <body class="${self.body_class()}" itemscope itemtype="http://schema.org/WebPage">
+    <body itemscope itemtype="http://schema.org/WebPage">
         <%include file="/base_header.mako" />
         ${next.body()}
         <%include file="/base_footer.mako" />
@@ -52,6 +52,5 @@
 
 <%def name="description()">Truveris engineering blog</%def>
 <%def name="illustration()">logo.png</%def>
-<%def name="body_class()">not-home</%def>
 
 ## vim: ft=mako
