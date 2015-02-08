@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+
+import os
+
+import flask
+
+from app import BlogApp
+from article import get_article, get_articles
+from job import get_jobs
+import meta
+
+
+blog = BlogApp()
+
+
+def abort(code, msg):
+    blog.app.logger.error(msg)
+    return flask.abort(code, msg)
+
+
+@blog.app.route("/index.html")
+@blog.app.route("/")
+def render_root():
+    try:
+        articles = get_articles(os.path.join(blog.folder, "articles"))
+    except meta.NotFound as e:
+        return abort(404, "article meta is missing: {}".format(e.path))
+
+    t = blog.templates.get_template("index.html")
+    body = t.render_unicode(articles=articles)
+    return body.encode("utf-8")
+
+
+@blog.app.route("/<path>.xml")
+def xml(path):
+    try:
+        articles = get_articles(os.path.join(blog.folder, "articles"))
+    except meta.NotFound as e:
+        return abort(404, "article meta is missing: {}".format(e.path))
+
+    t = blog.templates.get_template(path + ".xml")
+    body = t.render_unicode(articles=articles)
+    return body.encode("utf-8")
+
+
+@blog.app.route("/<path:path>")
+def all_files(path):
+    return blog.file_renderer(path)
+
+
+@blog.app.route("/articles/<string:name>/index.html")
+@blog.app.route("/articles/<string:name>/")
+def render_article(name):
+    path = os.path.join("articles", name)
+
+    article_path = os.path.join(blog.folder, path)
+    try:
+        article = get_article(article_path)
+    except meta.NotFound as e:
+        return abort(500, "article meta is missing: {}".format(e.path))
+
+    body_path = os.path.join(path, "index.html")
+    if not blog.templates.has_template(body_path):
+        return abort(404, "file not found: {}".format(body_path))
+
+    t = blog.templates.get_template(body_path)
+    body = t.render_unicode(article=article)
+    return body.encode("utf-8")
+
+
+@blog.app.route("/jobs/index.html")
+@blog.app.route("/jobs/")
+def render_jobs():
+    try:
+        jobs = get_jobs(os.path.join(blog.folder, "jobs"))
+    except meta.NotFound as e:
+        return abort(500, "job meta is missing: {}".format(e.path))
+
+    template = blog.templates.get_template(os.path.join("jobs", "index.html"))
+    body = template.render_unicode(jobs=jobs)
+    return body.encode("utf-8")
+
+
+blog.cli()

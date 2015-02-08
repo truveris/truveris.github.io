@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+	<title>truveris.github.io</title>
+	<subtitle>Truveris engineering blog</subtitle>
+	<link href="https://truveris.github.io/atom.xml" rel="self" />
+	<link href="https://truveris.github.io/" />
+	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
+	<updated>${articles[0].date_iso}</updated>
+
+	% for article in articles:
+	<entry>
+		<title>${article.title}</title>
+		<link href="https://truveris.github.io${article.url}" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>${article.date_iso}</updated>
+		<summary>${article.description}</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				<%include file="articles/${article.name}/short.html" />
+			</div>
+		</content>
+		<author>
+			<name>${article.author.name}</name>
+			<email>${article.author.email}</email>
+		</author>
+	</entry>
+	% endfor
+
+</feed>

@@ -1,0 +1,6 @@
+.sass-cache
+venv
+*.pyc
+*.gz
+*.DS_Store
+\._*

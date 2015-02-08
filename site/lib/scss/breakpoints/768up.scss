@@ -1,0 +1,136 @@
+/******************************************************************
+GLOBAL STYLES
+******************************************************************/
+body {
+}
+
+blockquote {
+    margin:0;
+
+    &:after {
+        left: -36px;
+    }
+}
+
+/******************************************************************
+TITLES/TEXT
+******************************************************************/
+h1, .h1 { font-size: 30px; }
+
+
+/******************************************************************
+Links
+******************************************************************/
+a { @include transition(color .2s); }
+a:hover { color: lighten($blue, 10%); }
+h2 a:hover { color: lighten($darkblue, 10%); }
+
+
+/******************************************************************
+HEADER
+******************************************************************/
+
+.header, footer { text-align: left; }
+
+.headroom--top { padding: 36px 48px; }
+.headroom--not-top { padding: 18px 48px; }
+
+    .cta {
+        position: absolute;
+        display: inline-block;
+        right: 48px;
+        top: 50%;
+        margin-top: -23px;
+        padding: 11px 16px;
+        line-height: 1;
+        color: lighten($gray, 5%);
+        border-radius: 30px;
+        border: 2px solid lighten($gray, 20%);
+        @include transition(border-color .2s, color .2s);
+
+        &:active { margin-top: -22px; }
+
+        &:hover {
+            color: $blue;
+            border-color: $blue;
+        }
+
+        span { margin-left: 2px; }
+
+    }
+
+    .logo {
+        height: 31px;
+        width: auto;
+        top: 2px;
+    }
+
+
+/******************************************************************
+POST LISTING
+******************************************************************/
+.main { margin-top: 11em }
+
+    article {
+        width: 66%;
+        max-width: none;
+        padding: 0;
+    }
+
+        .roundimg {
+            width: 214px;
+            height: 214px;
+        }
+
+        .image-link { pointer-events: inherit; cursor: pointer; }
+
+        .post-social { display: block; float:right; text-align: right; }
+
+        .post-footer div { width: 50% }
+
+        .byline { min-width: none;}
+
+/******************************************************************
+LightBox
+******************************************************************/
+img.mfp-img { padding: 100px 0; }
+
+
+/******************************************************************
+FOOTER
+******************************************************************/
+.footer {
+    margin-top: 5em;
+    padding: 0 48px;
+
+    p {
+        line-height: 156px;
+    }
+}
+
+    .author a:hover {
+        color: $darkblue;
+        text-decoration: underline;
+    }
+
+    p.social {
+        line-height: 156px;
+        float: right;
+        margin: 0;
+
+        span {
+            transition: all .2s;
+            -webkit-transition: all .2s;
+            -moz-transition: all .2s;
+            -o-transition: all .2s;
+        }
+
+        a {
+            position: relative;
+
+            &:hover {
+                color: $darkblue
+            }
+        }
+
+    }

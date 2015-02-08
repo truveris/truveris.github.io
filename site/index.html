@@ -1,0 +1,50 @@
+<%inherit file="/base.mako"/>
+
+<%def name="title()">truveris.github.com</%def>
+<%def name="body_class()">home</%def>
+
+<!-- Main Section -->
+<section class="main" itemscope itemtype="http://schema.org/Blog" role="main">
+    <meta content='Truveris Labs Blog' itemprop='name'>
+
+    % for article in articles:
+    <article itemprop="blogPost" itemscope
+            itemtype="http://schema.org/BlogPosting" role="article"
+            class="hentry entry">
+
+        <header>
+            <figure>
+                <a href="${article.url}">
+                    <img src="/lib/img/${article.illustration}"
+                        alt="Description" class="roundimg">
+                </a>
+            </figure>
+
+            <h2 class="h1" itemprop="name headline">
+                <a href="${article.url}" class="entry-title">${article.title}</a>
+            </h2>
+
+            <time datetime="${article.date_iso}" itemprop="datePublished"
+                class="date published updated">${article.date_us}</time>
+            <div class="vcard">
+                <span class="fn author" itemprop="author" itemscope=""
+                    itemtype="http://schema.org/Person">
+                    <a href="https://github.com/${article.author.username}" class="url"
+                        ><span itemprop="name">${article.author.name}</span></a>
+                </span>
+            </div>
+
+        </header>
+
+        <p itemprop="description articleBody" class="entry-content">
+            <%include file="articles/${article.name}/short.html" />
+
+            <a href="${article.url}" itemprop="url" rel="bookmark">
+                Read more <span class="icon-right-open-mini"></span>
+            </a>
+        </p>
+    </article>
+    % endfor
+</section>
+
+## vim: ft=mako

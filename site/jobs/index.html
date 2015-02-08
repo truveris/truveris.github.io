@@ -1,0 +1,69 @@
+<%inherit file="/base.mako"/>
+
+<%def name="title()">we're hiring - truveris.github.com</%def>
+<%def name="description()">Open positions within the Truveris Engineering team</%def>
+
+<section class="main" itemscope itemtype="http://schema.org/CollectionPage" role="main">
+    <meta content='Truveris Jobs' itemprop='name'>
+
+    <article>
+
+        <!-- Article header -->
+        <header>
+            <h1 itemprop="name headline" role="heading">We're hiring!</h1>
+        </header>
+
+        <p>
+            We're growing fast and have a ton of interesting problems to solve. If
+            any of the following qualifiers apply to you, please reach out:
+        </p>
+
+        <ul>
+            <li>Unix/Linux hacker
+            <li>Data nerd
+            <li>Byte artist
+        </ul>
+
+        <p>
+            The following text contains our email, figure out the codec and send us
+            your portfolio, github, resume or whatever you feel like it. This little
+            trick is a good spam filter and it shows you're not a complete idiot.
+        </p>
+
+    <center><pre><code class="language-raw">aW1wb3J0IGNvZGVjcwpwcmludChjb
+2RlY3MuZGVjb2RlKHN0cigiciIuam
+9pbihbInEiLCAiaUBnZWhpIiwgImV
+2Zi5wYnoiXSkpLCAicm90MTMiKSkK</code></pre></center>
+
+    </article>
+
+##    % for job in jobs:
+##    <article itemscope itemtype="http://schema.org/JobPosting">
+##        <h2 itemprop="title">${job.title}</h2>
+##
+##        <span>
+##            <p>
+##                <strong>Location:</strong>
+##                <span itemprop="jobLocation" itemscope itemtype="http://schema.org/Place">
+##                    <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+##                        <span itemprop="addressLocality">New York</span>
+##                        <span itemprop="addressRegion">NY</span>
+##                    </span>
+##                </span>
+##            </p>
+##        </span>
+##
+##        <p itemprop="description">
+##            <strong>Description:</strong>
+##            <span itemprop="hiringOrganization" itemscope itemtype="http://schema.org/Organization">
+##                <span itemprop="name">Truveris Inc.</span>
+##            </span>
+##
+##            seeks a full-time senior-level software engineer to develop apps
+##            &amp; tools to lower the cost of healthcare for Americans.
+##        </p>
+##    </article>
+##    % endfor
+</section>
+
+## vim: ft=mako
