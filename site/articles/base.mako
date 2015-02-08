@@ -9,7 +9,7 @@
     <!-- Article header -->
     <header>
         <figure>
-            <img src="/lib/img/${article.illustration}" alt="Description" class="roundimg">
+            <img src="/lib/img/${article.illustration}" alt="${article.title}" class="roundimg">
         </figure>
 
         <h1 itemprop="name headline" role="heading">${article.title}</h1>
