@@ -31,13 +31,14 @@
         <meta name="twitter:description" content="${self.description()}">
         <meta name="twitter:creator" content="@truveris">
         <meta name="twitter:domain" content="truveris.github.io">
+        <meta name="twitter:image:src" content="/lib/img/${self.illustration()}">
 
         <meta property="og:title" content="${self.title()}">
         <meta property="og:description" content="${self.description()}">
         <meta property="og:url" content="https://truveris.github.io/">
         <meta property="og:site_name" content="truveris.github.io">
         <meta property="og:type" content="blog">
-        <meta property="og:image" content="lib/img/${self.illustration()}">
+        <meta property="og:image" content="/lib/img/${self.illustration()}">
     </head>
 
     <body class="${self.body_class()}" itemscope itemtype="http://schema.org/WebPage">
