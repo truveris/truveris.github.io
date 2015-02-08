@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="282px" height="282px" viewBox="0 0 282 282" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon-elephant 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path id="path-1" d="M141,282 C218.87215,282 282,218.87215 282,141 C282,63.1278503 218.87215,0 141,0 C63.1278503,0 0,63.1278503 0,141 C0,218.87215 63.1278503,282 141,282 Z"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Icon-elephant-3" sketch:type="MSLayerGroup">
+            <mask id="mask-2" sketch:name="bg" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="bg" fill="#F3EA83" sketch:type="MSShapeGroup" xlink:href="#path-1"></use>
+            <g id="Elephant" mask="url(#mask-2)">
+                <g transform="translate(45.000000, 3.000000)">
+                    <g id="Plan-back" stroke="none" stroke-width="1" fill-rule="evenodd" sketch:type="MSLayerGroup" transform="translate(12.000000, 34.000000)">
+                        <rect id="Leg-back" fill="#314D5C" sketch:type="MSShapeGroup" x="131" y="131" width="102" height="114"></rect>
+                        <path d="M105,119 L251,119 L251,246 L105,246 L105,119 Z M105,125 L114.990507,125 C131.564292,125 147.190376,138.251777 149.89255,154.59993 L165,246 L105,246 L105,125 Z" id="Leg-front-2" fill="#314D5C" sketch:type="MSShapeGroup"></path>
+                        <path d="M20.2010019,28.3629404 C0.151263394,40.4039511 -4.91081464,65.4780552 8.8815754,84.3497882 L44.9414486,133.689482 C58.7396404,152.569153 72.0031761,149.029277 74.5671044,125.77642 L85.2834657,28.5872653 C87.8470717,5.33733046 73.6776645,-3.75284354 53.622022,8.29171288 L20.2010019,28.3629404 Z" id="oreille-arriere" fill="#314D5C" sketch:type="MSShapeGroup"></path>
+                        <rect id="Rectangle-119" fill="#F3EA83" sketch:type="MSShapeGroup" x="69" y="130" width="14" height="24"></rect>
+                    </g>
+                    <path d="M26,175 C56.3756612,175 81,155.748244 81,132" id="Oval-27" stroke="#FFFFFF" stroke-width="12" sketch:type="MSShapeGroup"></path>
+                    <g id="Plan-middle" stroke="none" stroke-width="1" fill-rule="evenodd" sketch:type="MSLayerGroup" transform="translate(58.000000, 51.000000)">
+                        <path d="M49,102 L195,102 L195,229 L49,229 L49,102 Z M49,108 L64.0016487,108 C83.3307044,108 101.555872,123.463027 104.707776,142.532043 L119,229 L49,229 L49,108 Z" id="Leg-front" fill="#446373" sketch:type="MSShapeGroup"></path>
+                        <path d="M58.0607902,0 L276,0 L276,108 L0,108 L0,55 C0,24.6243388 25.9938574,0 58.0607902,0 Z" id="Body" fill="#446373" sketch:type="MSShapeGroup"></path>
+                        <rect id="Rectangle-98" fill="#446373" sketch:type="MSShapeGroup" x="13" y="108" width="11" height="18"></rect>
+                        <g id="Lights" transform="translate(127.000000, 70.000000)" stroke="#527384" stroke-width="6" stroke-linecap="round" sketch:type="MSShapeGroup">
+                            <path d="M35.4306918,23.0067363 C35.1181398,26.6786173 34.6183728,30.6663484 33.8534988,34.8755382 C30.1092983,55.4803067 26.0123802,81.3918573 0.425814394,101.537841" id="Path-112"></path>
+                            <path d="M35.15625,0 C35.15625,0 35.7889974,4.08596112 35.8764153,10.8302617" id="Path-113"></path>
+                        </g>
+                    </g>
+                    <g id="Plan-front" stroke="none" stroke-width="1" fill-rule="evenodd" sketch:type="MSLayerGroup" transform="translate(126.000000, 34.000000)">
+                        <path d="M15.0839259,30.1171769 C-2.47841809,44.671868 -4.45361513,70.3105741 10.678274,87.3896856 L56.5056581,139.114291 C71.6348278,156.190333 83.8994429,151.546287 83.8994427,128.71878 C83.8994427,128.71878 83.8994421,62.234725 83.8994421,29.6249288 C83.8994421,28.4371944 82.3095544,23.3896931 82.3095544,23.3896931 C76.1705283,1.42350412 56.9475364,-4.57704843 39.3944275,9.96998914 L15.0839259,30.1171769 Z" id="Oreille-front" fill="#527384" sketch:type="MSShapeGroup" transform="translate(42.201816, 75.719200) scale(-1, 1) translate(-42.201816, -75.719200) "></path>
+                    </g>
+                    <g id="Rectangle-94-+-Rectangle-97" stroke="none" stroke-width="1" fill-rule="evenodd" sketch:type="MSLayerGroup" transform="translate(118.000000, 0.000000)"></g>
+                </g>
+            </g>
+            <g id="Top-element" transform="translate(55.000000, 168.000000)" stroke="#446373" stroke-width="18" sketch:type="MSShapeGroup" stroke-linecap="square">
+                <path d="M5.68434189e-14,-4.36159045e-17 L5.68434189e-14,28.2857143 L5.68434189e-14,37.4996027 C5.68434189e-14,53.2399375 12.7564238,66 28.5,66 L28.5,66 C44.2401154,66 57,53.2359265 57,38.7142857 L57,38.7142857" id="trompe-front" transform="translate(28.500000, 33.000000) scale(-1, 1) translate(-28.500000, -33.000000) "></path>
+            </g>
+            <path d="M79,195 C109.375661,195 134,175.748244 134,152" id="Oval-26" stroke="#FFFFFF" stroke-width="12" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>
