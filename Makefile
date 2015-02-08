@@ -15,6 +15,8 @@ venv:
 	venv/bin/pip install python-dateutil
 
 publish: output
+	git commit output -m "sync output"
+	git push
 	git subtree push --prefix output/ origin master
 
 clean:

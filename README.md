@@ -36,10 +36,6 @@ make
 Do your update, commit, push then publish:
 
 ```shell
-# vim site/...
-make output
-git commit -am "Things were done"
-git push
 make publish
 ```
 
