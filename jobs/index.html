@@ -20,7 +20,7 @@
         <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
 
         <!-- JS -->
-        <script type="text/javascript" src="//w.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
         <script type="text/javascript">stLight.options({publisher: "ur-bd6ecc7d-a28e-7a33-9fa5-a9f85b7af5fe", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
 
         <!-- Social -->
