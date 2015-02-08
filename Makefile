@@ -15,7 +15,7 @@ venv:
 	venv/bin/pip install python-dateutil
 
 publish: output
-	git subtree push --prefix output/ origin gh-pages
+	git subtree push --prefix output/ origin master
 
 clean:
 	rm -rf output
