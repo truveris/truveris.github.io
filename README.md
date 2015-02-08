@@ -32,6 +32,18 @@ make
 ```
 
 
+## Publish the static site to our GitHub user page
+Do your update, commit, push then publish:
+
+```shell
+# vim site/...
+make output
+git commit -am "Things were done"
+git push
+make publish
+```
+
+
 ## Adding a new author
 Create a new folder named after your GitHub account in the `src/authors/`
 folder and create the following files:
