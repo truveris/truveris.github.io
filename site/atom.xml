@@ -18,7 +18,7 @@
 		<summary>${article.description}</summary>
 		<content type="xhtml">
 			<div xmlns="http://www.w3.org/1999/xhtml">
-				<%include file="articles/${article.name}/short.html" />
+				<%include file="/articles/${article.name}/short.html" />
 			</div>
 		</content>
 		<author>
