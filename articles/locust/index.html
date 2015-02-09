@@ -79,10 +79,10 @@
 
 <p>
     In my search for a scalable, session based, highly configurable load testing
-    tool, I happened upon Locust.  Looking for something between the lightweight
-    but pure throughput testing of
+    tool, I happened upon Locust.  I was Looking for something between the 
+    lightweight but pure throughput testing of
     <a href="http://httpd.apache.org/docs/2.2/programs/ab.html">ab</a> and full
-    on virtual machine scripted browser transactions.  Locust looked to fit the
+    on virtual machine scripted browser transactions.  Locust seemed to fit the
     bill, and so far has done everything I have needed, both for
     quasi-functional testing as well as benchmarking API endpoints.  A great
     departure from the normal heavyweight
@@ -92,7 +92,7 @@
 
 <p>
     <a href="http://locust.io/">Locust</a> is a lightweight
-    framework designed to allow script-able application interactions be
+    framework designed to allow script-able application interactions to be
     scripted simulating the burstiness of an end user.  Once the base set of
     tasks is defined, locust allows it to be scaled out to an arbitrary number
     of users, all acting independently with their own session data.  Locust
@@ -110,7 +110,7 @@
 
 <h2 role="heading">Getting Started</h2>
 <p>
-    Locust is fairly straight forward to use, import the needed classes, write
+    Locust is fairly straight forward to use; import the needed classes, write
     a HttpLocust class and at least one task, then run your project with
     <code>locust -f <yourfile.py></code>.  This will launch your task definitions as
     well as Locust's internal flask engine for controlling the test and
@@ -131,14 +131,14 @@
 <p>
     The above declares a new class that will inherit the HttpLocust, which
     fulfils one of the two requirements of locust: your file must be valid
-    python, and must have at least on class that inherits from
+    python, and must have at least one class that inherits from
     <code>Locust</code>.  The HttpLocust class includes some additional helpers
     to simplify http requests and session management.  In our example class we
     define the target host that all the request URLs will be built from, the
     TaskSet class we want this Locust to execute, and the delay window we want
     each task to be executed in.  As Locust tries to emulate user behavior, it
-    will pause each individual 'User' between min_wait and max_wait ms, to
-    simulate the time between normal user actions.
+    will pause each individual <code>'User'</code> between <code>min_wait</code>
+    and <code>max_wait</code> ms, to simulate the time between normal user actions.
 </p>
 
 <p>
@@ -186,7 +186,7 @@
     <code>index</code> will get executed 10x more often than
     <code>contact_us</code>,
     and twice as often as <code>about</code>.  You can easily see how locust will
-    distribute requests by running <code>locust -f <youfile.py> --show-task-ratio</code>
+    distribute requests by running <code>locust -f <yourfile.py> --show-task-ratio</code>
 </p>
 
 <p>
@@ -256,7 +256,7 @@ Total task ratio
 
 <p>
     Since the file is written in python, you can have any number of functions
-    that are not wrapped with a @task that you can call from within tasks, for
+    that are not wrapped with a @task that you can call from within tasks.  For
     instance to test our auto-complete suggestion API, I load a word list as a
     global dictionary from disk, then in any auto-complete request I grab a
     random word, return a chunk of the word from the third character to a
@@ -348,20 +348,20 @@ def about(self):
 <p>
     Although this is highly rudimentary and probably not the quickest, cleanest
     or sane way of doing simple testing like this, it will work for simple
-    checks like this, as well as being easily expanded to checking shorter
-    responses, as in API responses.
+    checks , as well as being easily expanded to checking shorter responses, 
+    as in API responses.
 </p>
 
 <p>
-    The response object exposes a number of ways to get at the response,
-    details can be found in the
+    The response object exposes a number of ways to get at the response, such as
+    returning a JSON object, the text, etc. Details can be found in the
     <a href="http://docs.locust.io/en/latest/api.html#response-class">Documentation</a>,
     but we will go over a few of the more obviously useful.
 </p>
 
 <p>
     The following examples will all assume the response object was returned in a
-    task via ``response = self.client.get("/contact_us")``.
+    task via <code>response = self.client.get("/contact_us")</code>.
 </p>
 
 <p>
@@ -384,17 +384,17 @@ def about(self):
 <p>
     <strong>Status Code:</strong><br />
     <code>responses.status_code</code> will allow you to take action depending on the
-    current responses status code, for instance if the status is 401, you could
+    current responses' status code.  For instance if the status is 401, you could
     fire a new request that will provide proper authentication.
 </p>
 
 <h2 role="heading">Closing</h2>
 
 <p>
-    So far this short writeup has demonstrated the basics of Locust, from
+    So far this short writeup has demonstrated the basics of Locust; from
     defining tasks, to building a pseudo functional testing framework based on
     the response values.  The next article will cover some more advanced
-    topics, like distributed mode testing, CSRF protect forms, and other topics
+    topics, like distributed mode testing, CSRF protected forms, and other topics
     yet to be realized.
 </p>
 

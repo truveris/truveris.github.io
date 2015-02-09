@@ -18,7 +18,7 @@
 		<content type="xhtml">
 			<div xmlns="http://www.w3.org/1999/xhtml">
 				In my search for a scalable, session based, highly configurable load testing
-tool, I happened upon Locust.  Looking for something between the lightweight
+tool, I happened upon Locust.  I was Looking for something between the lightweight
 but pure throughput testing of <em>ab</em> and full on virtual machine scripted
 browser transactions.  Locust looked to fit the bill, and so far has done
 everything I have needed, both for quasi-functional testing as well as
