@@ -4,6 +4,7 @@ all: output
 
 output: venv css
 	rm -rf output
+	git clone --branch master git@github.com:truveris/truveris.github.io.git
 	venv/bin/python bin/blog gen -f site/ output/
 
 serve: venv
@@ -15,10 +16,9 @@ venv:
 	venv/bin/pip install python-dateutil
 
 publish: output
-	git add output || true
-	git commit output -m "sync output" || true
-	git push
-	git subtree push --prefix output/ origin master
+	git -C output/ add output/ || true
+	git -C output/ commit -m "sync output" || true
+	git -C output/ push
 
 clean:
 	rm -rf output
