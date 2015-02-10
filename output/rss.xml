@@ -16,7 +16,7 @@
         <item>
             <media:thumbnail url="https://truveris.github.io/lib/img/locust.svg" />
             <title>Locust</title>
-            <pubDate>Mon, 02 Feb 2015 17:00:00 -0000</pubDate>
+            <pubDate>Mon, 02 Feb 2015 11:00:00 -0000</pubDate>
             <dc:creator>Dan Lloyd</dc:creator>
             <description><![CDATA[Introduction to testing web applications using locust; replacing users with small scripts.]]></description>
             <guid isPermaLink="true">https://truveris.github.io/articles/locust/</guid>
