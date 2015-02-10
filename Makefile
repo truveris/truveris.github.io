@@ -2,7 +2,7 @@
 
 all: output
 
-output: venv
+output: venv css
 	rm -rf output
 	venv/bin/python bin/blog gen -f site/ output/
 
