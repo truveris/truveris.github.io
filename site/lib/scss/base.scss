@@ -8,6 +8,7 @@ body {
     color: $gray;
     font-size: 16px;
     line-height: 1.7;
+    overflow-x: hidden;
 }
 
 /******************************************************************
@@ -244,7 +245,7 @@ IMAGES
 FOOTER
 ******************************************************************/
 .footer {
-    margin-top: 0;
+    margin-top: 2em;
     padding: 0 24px 48px;
     color: $gray;
     line-height: 18px;
