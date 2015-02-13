@@ -39,6 +39,13 @@
         <meta property="og:site_name" content="truveris.github.io">
         <meta property="og:type" content="blog">
         <meta property="og:image" content="/lib/img/logo.png">
+
+        <!-- Force https -->
+        <script type="text/javascript">
+            var host = "truveris.github.io";
+            if ((host == window.location.host) && (window.location.protocol != "https:"))
+                window.location.protocol = "https";
+        </script>
     </head>
 
     <body itemscope itemtype="http://schema.org/WebPage">
