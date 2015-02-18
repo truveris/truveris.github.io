@@ -1,9 +1,8 @@
 # Truveris Engineering Blog
 
-This is the source repository for our engineering site. You should never
-directly edit files within the `output/` folder nor should you change anything
-on the `master` branch. They are used as a subtree repository for GitHub to use
-as our user page, the folder is generated from `make output`.
+This is the source repository for our engineering site.  Rendering occurs in
+the `output/` directory created on the fly and managed in the separate `master`
+branch.
 
 
 ## Directory structure
