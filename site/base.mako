@@ -52,9 +52,9 @@
         <%include file="/base_header.mako" />
         ${next.body()}
         <%include file="/base_footer.mako" />
+    <%include file="/base_ga.mako" />
     </body>
 
-    <%include file="/base_ga.mako" />
 </html>
 
 <%def name="description()">Truveris engineering blog</%def>
