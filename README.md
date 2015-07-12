@@ -77,4 +77,9 @@ time.
 ## Updating the CSS
 Since we use SCSS/SASS for all our stylesheets, you should never touch a CSS
 file in this project. Once you are done playing with the .scss file, just run
-`make css` from the root folder.
+`make css` from the root folder.  If you don't have Sass installed, you can
+install it quickly with:
+
+```
+sudo gem install sass
+```
