@@ -1,8 +1,17 @@
 <html>
     <head>
         <style type="text/css">
-
-
+            html { 
+                background: black no-repeat center center fixed; 
+            }
+            html, body {
+                min-width: 100%;
+                min-height: 100%;
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
             video#media {
                 position: fixed;
                 min-width: 100%;
@@ -24,6 +33,11 @@
                     return;
                 }
                 query = query.substr(1);
+                var file_exploded = query.split('.');
+                if (file_exploded.pop() == 'gifv')
+                {
+                    query = file_exploded.join('.')+".webm";
+                }
                 var v = document.getElementById("media");
                 v.setAttribute("src", query);
                 v.load();
