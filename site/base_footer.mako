@@ -9,7 +9,9 @@
                 </p>
 
                 <p class="copyright">
-                    <span class="company" itemprop="copyrightHolder sourceOrganization">TRUVERIS</span> ⓒ
+                    <span class="company" itemprop="copyrightHolder sourceOrganization">
+						<a href="http://truveris.com" target="_blank"><img src="/lib/img/truveris-logo.png"/></a>
+					</span> ⓒ
                     <span itemprop="copyrightYear">2015</span>.
                     <span class="rightsreserved">All Rights Reserved.</span>
                 </p>

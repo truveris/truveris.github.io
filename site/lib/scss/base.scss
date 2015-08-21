@@ -11,6 +11,24 @@ body {
     overflow-x: hidden;
 }
 
+.logo-dark-gray { 
+	color:#656565;
+	font-weight:600;
+	font-size: 30px;
+}
+
+.logo-light-gray { 
+	color:#999999; 
+	font-weight:600;
+	font-size: 30px;
+}
+
+#logo-svg{
+	width: 140px;
+	position: relative;
+	top: 3px;
+}
+
 /******************************************************************
 SOME DEFAULTS
 ******************************************************************/
@@ -254,7 +272,13 @@ FOOTER
     .company {
         font-weight: 700;
         line-height: 2;
+		position: relative;
+  		top: 5px;
     }
+	
+	.company a img{
+		width:160px;
+	}
 
     .rightsreserved {
         white-space: nowrap
