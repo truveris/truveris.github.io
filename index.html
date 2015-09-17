@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Favicon -->
-        <link rel="icon" href="/favicon.png">
+        <link rel="shortcut icon" href="http://truveris.com/images/truveris_32x32.ico" type="image/x-icon">
 
         <!-- Stylesheets -->
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
