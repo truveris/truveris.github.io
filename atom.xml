@@ -7,8 +7,27 @@
 	<link href="https://truveris.github.io/atom.xml" rel="self" />
 	<link href="https://truveris.github.io/" />
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-	<updated>2015-02-02T12:00:00</updated>
+	<updated>2016-06-13T22:32:00</updated>
 
+	<entry>
+		<title>Break On Attribute Change</title>
+		<link href="https://truveris.github.io/articles/break-on-attribute-change/" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2016-06-13T22:32:00</updated>
+		<summary>JavaScript debugging feature</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				Today I discovered a neat feature available in both Firefox and Chrome: break
+on attribute change. This allows us to break when some code changes a DOM
+element attribute.
+
+			</div>
+		</content>
+		<author>
+			<name>Ryan Kelly</name>
+			<email>rkelly@truveris.com</email>
+		</author>
+	</entry>
 	<entry>
 		<title>Locust</title>
 		<link href="https://truveris.github.io/articles/locust/" />

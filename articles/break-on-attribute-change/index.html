@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Break On Attribute Change - truveris.github.com</title>
+        <meta name="description" content="JavaScript debugging feature">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="http://truveris.com/images/truveris_32x32.ico" type="image/x-icon">
+
+        <!-- Stylesheets -->
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Lora:400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/lib/css/style.css">
+
+        <!-- RSS -->
+        <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
+
+        <!-- JS -->
+        <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">stLight.options({publisher: "ur-bd6ecc7d-a28e-7a33-9fa5-a9f85b7af5fe", doNotHash: false, doNotCopy: true, hashAddressBar: false});</script>
+
+        <!-- Social -->
+        <link href="https://plus.google.com/+Truverisprescriptions" rel="publisher">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@truveris">
+        <meta name="twitter:title" content="Break On Attribute Change - truveris.github.com">
+        <meta name="twitter:description" content="JavaScript debugging feature">
+        <meta name="twitter:creator" content="@truveris">
+        <meta name="twitter:domain" content="truveris.github.io">
+        <meta name="twitter:image:src" content="/lib/img/helmet.svg">
+
+        <meta property="og:title" content="Break On Attribute Change - truveris.github.com">
+        <meta property="og:description" content="JavaScript debugging feature">
+        <meta property="og:url" content="https://truveris.github.io/">
+        <meta property="og:site_name" content="truveris.github.io">
+        <meta property="og:type" content="blog">
+        <meta property="og:image" content="/lib/img/helmet.svg">
+
+        <!-- Force https -->
+        <script type="text/javascript">
+            var host = "truveris.github.io";
+            if ((host == window.location.host) && (window.location.protocol != "https:"))
+                window.location.protocol = "https";
+        </script>
+    </head>
+
+    <body itemscope itemtype="http://schema.org/WebPage">
+                <header class="header clearfix headroom headroom--top" id="header" role="banner">
+
+            <a href="/">
+                <span class="logo-dark-gray">truveris</span><span class="logo-light-gray">.github.io</span>
+            </a>
+
+            <a href="/jobs/" class="cta" role="link">
+                We are hiring <span class="icon-right-open-mini"></span>
+            </a>
+
+        </header>
+
+        
+
+
+
+
+
+<article itemtype="http://schema.org/BlogPosting" itemscope class="main hentry entry" role="main">
+
+    <!-- Article header -->
+    <header>
+        <figure>
+            <img src="/lib/img/helmet.svg" alt="Break On Attribute Change" class="roundimg">
+        </figure>
+
+        <h1 itemprop="name headline" role="heading">Break On Attribute Change</h1>
+    </header>
+
+    <!-- Article content -->
+    <div itemprop="description articleBody" class="entry-content">
+        
+
+<p>
+    Today I discovered a neat feature available in both Firefox and Chrome: break
+    on attribute change. This allows us to break when some code changes a DOM element attribute.
+</p>
+
+<p>
+    I was debugging an issue where some code involved with adding and removing
+    styles for error indication on a table was incorrectly doing the following:
+</p>
+
+<pre><code class="language-javascript">$("td").each(function() {
+    if (!$(this).hasClass("qc-error")) {
+        $(this.parentNode).attr("style", "");
+    } else {
+        $(this.parentNode).attr("style", "border: 1px solid #f00; background: #eee");
+    }
+});</code></pre>
+
+<p>
+    The templating code was responsible for the initial hiding of the row and would
+    insert this style when rendered:
+</p>
+
+<pre><code class="language-mako">&lt;tr id="second-fee-row" {{'style="display: none"' if bid.fee_type != constants.FEE_TYPE_PER else '' | n}&gt;</code></pre>
+
+<p>
+    Additionally, some code elsewhere on the page was also attempting to manage
+    this row by setting the display in response to changes in a dropdown:
+</p>
+
+<pre><code class="language-javascript">if ($("#fee-type").val() !== constants.FEE_TYPE_PER) {
+    $("#second-fee-row").css("display", "none");
+} else {
+    $("#second-fee-row").css("display", "table-row");
+}</code></pre>
+
+<p>
+    After first verifying that Firefox thought it should display the element, I
+    looked at the page source. Checked out. <code>display: none</code> was definitely
+    there.
+</p>
+
+<p>
+    Then I spent some time looking for modifications to <code>#second-fee-row</code>. I
+    inspected all the sites that were modifying that row (by looking for that id).
+    Nope. Nothing setting the style to empty.
+</p>
+
+<p>
+    After a quick google to confirm that <code>display: none</code> hadn't suddenly become
+    unsupported, I came across this Stack Overflow link:
+    <a href="https://stackoverflow.com/questions/13303650/break-when-style-has-changed-in-chrome-dev-tools">https://stackoverflow.com/questions/13303650/break-when-style-has-changed-in-chrome-dev-tools</a>.
+    This in turn led me to search for the same feature in Firefox (my day-to-day
+    browser) which resulted in: <a href="https://getfirebug.com/doc/breakpoints/demo.html">https://getfirebug.com/doc/breakpoints/demo.html</a>.
+</p>
+
+<p>
+    I went ahead and set such a breakpoint on the afflicted element. Lo and behold,
+    the offending code was found and repaired with:
+</p>
+
+<pre><code class="language-javascript">$("td").each(function() {
+    if (!$(this).hasClass("qc-error")) {
+        $(this.parentNode).css({
+            border: null,
+            background: null
+        });
+    } else {
+        $(this.parentNode).css({
+            border: "1px solid #f00",
+            background: "#eee"
+        });
+    }
+});</code></pre>
+
+<p>
+    Not a perfect solution (should probably track the original value instead) but
+    acceptable in this case.
+</p>
+
+
+        <div class="large-separator" role="separator"></div>
+    </div>
+
+    <!-- Article footer -->
+    <footer class="post-footer clearfix">
+
+            <div class="post-social">
+                <span class='st_twitter_hcount' displayText='Tweet' st_via="truveris"></span>
+                <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+            </div>
+
+            <div class="byline vcard">
+                <meta content="https://truveris.github.io//articles/break-on-attribute-change/" itemprop="url">
+
+                <a href="https://github.com/f0rk">
+                    <img src="/lib/img/helmet.svg" alt="Ryan Kelly profil pic" class="profil_pic">
+                </a>
+
+                <span class="fn author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                    <a href="https://github.com/f0rk" class="url"><span itemprop="name">Ryan Kelly</span></a>
+                </span>
+                <br />
+                <time datetime="2016-06-13T22:32:00" itemprop="datePublished" class="date published updated">June 13, 2016</time>
+                <br />
+
+                <span class="org">Truveris</span>
+                <div class="adr">
+                    <span class="locality">New York</span>
+                    <span class="country-name">USA</span>
+                </div>
+            </div>
+
+    </footer>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'truveris'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</article>
+
+<p class="mobile-cta">
+	<a href="/jobs/" class="cta" role="link">
+		We are hiring <span class="icon-right-open-mini"></span>
+	</a>
+</p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/lib/js/min/core-min.js"></script>
+<script src="/lib/js/plugins/lightbox.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.image-link').magnificPopup({
+            type: 'image',
+            mainClass: 'mfp-with-zoom',
+            closeOnContentClick: true,
+
+            zoom: {
+                enabled: true,
+                duration: 300,
+                easing: 'ease-in-out',
+                opener: function(openerElement) {
+                    return openerElement.is('img') ? openerElement : openerElement.find('img');
+                }
+            }
+        });
+    });
+</script>
+
+
+                <footer class="footer clearfix" role="contentinfo">
+
+            <div class="wrap">
+
+                <p class="social">
+                    <a href="https://github.com/truveris/" data-tooltip="Github"><span class="icon-github"></span></a>
+                    <a href="https://twitter.com/truveris" data-tooltip="Twitter"><span class="icon-twitter"></span></a>
+                    <a href="https://www.linkedin.com/company/truveris" data-tooltip="Linkedin"><span class="icon-linkedin"></span></a>
+                </p>
+
+                <p class="copyright">
+                    <span class="company" itemprop="copyrightHolder sourceOrganization">
+						<a href="http://truveris.com" target="_blank"><img src="/lib/img/truveris-logo.png"/></a>
+					</span> ⓒ
+                    <span itemprop="copyrightYear">2015-2016</span>.
+                    <span class="rightsreserved">All Rights Reserved.</span>
+                </p>
+
+            </div>
+        </footer>
+
+        <script src="/lib/js/min/core-min.js"></script>
+
+        <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-31708065-8', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    </body>
+
+</html>
+
+
+
+
