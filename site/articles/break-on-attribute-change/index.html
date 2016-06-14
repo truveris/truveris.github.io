@@ -1,0 +1,83 @@
+<%inherit file="/articles/base.mako" />
+
+<p>
+    Today I discovered a neat feature available in both Firefox and Chrome: break
+    on attribute change. This allows us to break when some code changes a DOM element attribute.
+</p>
+
+<p>
+    I was debugging an issue where some code involved with adding and removing
+    styles for error indication on a table was incorrectly doing the following:
+</p>
+
+<pre><code class="language-javascript">$("td").each(function() {
+    if (!$(this).hasClass("qc-error")) {
+        $(this.parentNode).attr("style", "");
+    } else {
+        $(this.parentNode).attr("style", "border: 1px solid #f00; background: #eee");
+    }
+});</code></pre>
+
+<p>
+    The templating code was responsible for the initial hiding of the row and would
+    insert this style when rendered:
+</p>
+
+<pre><code class="language-mako">&lt;tr id="second-fee-row" ${"{"}{'style="display: none"' if bid.fee_type != constants.FEE_TYPE_PER else '' | n}&gt;</code></pre>
+
+<p>
+    Additionally, some code elsewhere on the page was also attempting to manage
+    this row by setting the display in response to changes in a dropdown:
+</p>
+
+<pre><code class="language-javascript">if ($("#fee-type").val() !== constants.FEE_TYPE_PER) {
+    $("#second-fee-row").css("display", "none");
+} else {
+    $("#second-fee-row").css("display", "table-row");
+}</code></pre>
+
+<p>
+    After first verifying that Firefox thought it should display the element, I
+    looked at the page source. Checked out. <code>display: none</code> was definitely
+    there.
+</p>
+
+<p>
+    Then I spent some time looking for modifications to <code>#second-fee-row</code>. I
+    inspected all the sites that were modifying that row (by looking for that id).
+    Nope. Nothing setting the style to empty.
+</p>
+
+<p>
+    After a quick google to confirm that <code>display: none</code> hadn't suddenly become
+    unsupported, I came across this Stack Overflow link:
+    <a href="https://stackoverflow.com/questions/13303650/break-when-style-has-changed-in-chrome-dev-tools">https://stackoverflow.com/questions/13303650/break-when-style-has-changed-in-chrome-dev-tools</a>.
+    This in turn led me to search for the same feature in Firefox (my day-to-day
+    browser) which resulted in: <a href="https://getfirebug.com/doc/breakpoints/demo.html">https://getfirebug.com/doc/breakpoints/demo.html</a>.
+</p>
+
+<p>
+    I went ahead and set such a breakpoint on the afflicted element. Lo and behold,
+    the offending code was found and repaired with:
+</p>
+
+<pre><code class="language-javascript">$("td").each(function() {
+    if (!$(this).hasClass("qc-error")) {
+        $(this.parentNode).css({
+            border: null,
+            background: null
+        });
+    } else {
+        $(this.parentNode).css({
+            border: "1px solid #f00",
+            background: "#eee"
+        });
+    }
+});</code></pre>
+
+<p>
+    Not a perfect solution (should probably track the original value instead) but
+    acceptable in this case.
+</p>
+
+## vim: ft=mako
