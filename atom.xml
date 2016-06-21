@@ -7,8 +7,26 @@
 	<link href="https://truveris.github.io/atom.xml" rel="self" />
 	<link href="https://truveris.github.io/" />
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-	<updated>2016-06-13T22:32:00</updated>
+	<updated>2016-06-20T21:25:00</updated>
 
+	<entry>
+		<title>My Tests Are Slow</title>
+		<link href="https://truveris.github.io/articles/my-tests-are-slow/" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2016-06-20T21:25:00</updated>
+		<summary>PostgreSQL optimizations and debugging</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				The other day a coworker was remarking that their test suite ran much more
+slowly than mine. Much more slowly than the build server, too.
+
+			</div>
+		</content>
+		<author>
+			<name>Ryan Kelly</name>
+			<email>rkelly@truveris.com</email>
+		</author>
+	</entry>
 	<entry>
 		<title>Break On Attribute Change</title>
 		<link href="https://truveris.github.io/articles/break-on-attribute-change/" />

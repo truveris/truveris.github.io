@@ -15,6 +15,15 @@
 
         <item>
             <media:thumbnail url="https://truveris.github.io/lib/img/helmet.svg" />
+            <title>My Tests Are Slow</title>
+            <pubDate>Tue, 21 Jun 2016 01:25:00 -0000</pubDate>
+            <dc:creator>Ryan Kelly</dc:creator>
+            <description><![CDATA[PostgreSQL optimizations and debugging]]></description>
+            <guid isPermaLink="true">https://truveris.github.io/articles/my-tests-are-slow/</guid>
+            <link>https://truveris.github.io/articles/my-tests-are-slow/</link>
+        </item>
+        <item>
+            <media:thumbnail url="https://truveris.github.io/lib/img/helmet.svg" />
             <title>Break On Attribute Change</title>
             <pubDate>Tue, 14 Jun 2016 02:32:00 -0000</pubDate>
             <dc:creator>Ryan Kelly</dc:creator>
