@@ -1,0 +1,137 @@
+<%inherit file="/articles/base.mako" />
+
+<p>
+    The other day a coworker was remarking that their test suite ran much more
+    slowly than mine. Much more slowly than the build server, too. And by the other
+    day I mean the other day, last month, and probably a few other times.
+</p>
+
+<h3>Some Background On How We Test</h3>
+
+<p>
+    All of our test suites start out by initializing the database model. This includes,
+    among other things, emptying the test database and creating all new tables,
+    procedures, views, etc. using sqlalchemy's model system.
+</p>
+
+<p>
+    Our core system includes hundreds of database objects. Our core products are
+    supported by a single model library containing all the models for all of our
+    projects.
+</p>
+
+<p>
+    Constructing all of these objects is not a big problem. They load relatively
+    quickly. And in production the schema isn't being constantly modified.
+</p>
+
+<p>
+    After creating all of these tables all tests run on these tables and each test
+    is responsible for ensuring the state in the tables it may be testing against
+    is what it expects, including cleaning up the tables beforehand and adding any
+    initial objects it needs.
+</p>
+
+<p>
+    Tests then proceed to call whatever functions (or web endpoints, or whatever)
+    and returns are inspected for correctness. Too, the database state is inspected
+    to check for any side effects.
+</p>
+
+<h3>Hysterical Raisins</h3>
+
+<p>
+    Since I've been using the same development sandbox for a long time (and for a
+    lot more than just development) my configuration has "evolved" (or degraded,
+    depending on your perspective) over time.
+</p>
+
+<p>
+    One aspect that had seen numerous modifications was my PostgreSQL
+    configuration. Over the years, I have tweaked and tuned the config here in
+    order to speed up my own queries or to test optimizations that would ultimately
+    end up in production or staging.
+</p>
+
+<p>
+    The result of this was that I had inadvertently made my tests run quickly! Even
+    though my sandbox (we use virtualbox running on osx with ubuntu for our
+    local development systems) had fewer allocated resources in terms of CPU and
+    memory, careful optimizations had allowed it to run my tests significantly
+    faster.
+</p>
+
+<h3>The Config</h3>
+
+<p>
+    Here's a rundown of what the relevant configuration options were:
+</p>
+
+<pre>shared_buffers = 1GB                    # min 128kB
+work_mem = 32MB                         # min 64kB
+maintenance_work_mem = 256MB            # min 1MB
+wal_level = minimal                     # minimal, archive, or hot_standby
+fsync = off                             # turns forced synchronization on or off
+synchronous_commit = off                # synchronization level; on, off, or local
+full_page_writes = off                  # recover from partial page writes</pre>
+
+<p>
+    <b><a href="https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-SHARED-BUFFERS">shared_buffers</a></b>: This
+    is the amount of data that PostgreSQL will store in its own
+    shared memory. This primarily contains cached data. Keeping
+    more data in cache generally speeds up all workloads, even
+    fairly write heavy ones.
+
+    <br/><b><a href="https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-WORK-MEM">work_mem</a></b>: This
+    is the amount of memory that PostgreSQL will use to execute a
+    query. If a dataset can be loaded into memory and operated on
+    in this much memory, it will. For example, a quicksort can run
+    in memory, but all the data must be in memory. If the data fits
+    in memory, it will be loaded in memory and sorted there.
+    Otherwise, an on-disk merge sort may be performed.
+
+    <br/><b><a href="https://www.postgresql.org/docs/current/static/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM">maintenance_work_mem</a></b>: This
+    is similar to the above configuration parameter, but for
+    maintenance type operations such as CREATE INDEX.
+
+    <br/><b><a href="https://www.postgresql.org/docs/current/static/runtime-config-wal.html#GUC-WAL-LEVEL">wal_level</a></b>: This
+    determines how much information is written to the write ahead
+    log (WAL). Since we aren't making backups or performing
+    replication on our sandboxes, mininal is the best choice for
+    this.
+
+    <br/><b><a href="https://www.postgresql.org/docs/current/static/runtime-config-wal.html#GUC-FSYNC">fsync</a></b>: This
+    parameter ensures that data is written to disk to prevent
+    corruption in the event of a crash. YOU SHOULD ONLY SET THIS TO
+    "off" IF YOU ACCEPT THE RISK OF CORRUPTION. Since our sandboxes
+    can be recreated from scratch fairly easily, using this is
+    safe.
+
+    <br/><b><a href="https://www.postgresql.org/docs/current/static/runtime-config-wal.html#GUC-SYNCHRONOUS-COMMIT">synchronous_commit</a></b>: This
+    parameter allows for certainty that a transaction was completed
+    and written to disk. When "off", a transaction may report as
+    committed but still may be lost in the event of a crash.
+
+    <br/><b><a href="https://www.postgresql.org/docs/current/static/runtime-config-wal.html#GUC-FULL-PAGE-WRITES">full_page_writes</a></b>: This
+    parameter controls whether or not a full page is written to WAL
+    after a checkpoint. Not writing the page is a performance
+    improvement but can result in silent, unrecoverable corruption
+    in the event of a system failure.
+</p>
+
+<h3>But What About That Build Server?</h3>
+
+<p>
+    The build server had benefited from sharing parts of our production config as
+    well as having its data directory mounted on a ramdisk. Both of these helped
+    the build server cruise along where my coworker's development sandbox crawled.
+</p>
+
+<h3>How We'll Avoid This In The Future</h3>
+
+<p>
+    The above will be the settings recommended in our sandbox setup guide as well
+    as in the vagrant setup script.
+</p>
+
+## vim: ft=mako
