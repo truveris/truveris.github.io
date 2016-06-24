@@ -10,7 +10,7 @@
     features including two-way data binding, method references, and lambdas.
     These features let developers bind UI fields to data objects in layout files alone,
     without any code. Additionally methods and lambdas (simple functions) can be
-    called from within the layout files as a result of user action (for example onClick:).</p>
+    called from within the layout files as a result of user action (for example <code>onClick:</code>).</p>
 
 <p>I know I'm not alone in the frustration of how much boilerplate / glue code there is in
     Android when writing UI classes. First you have to use findViewById to
@@ -109,7 +109,7 @@
        }
        ...
     </code></pre>
-    So much glue code! We need an updateUI method too,
+    So much glue code! We need an <code>updateUI</code> method too,
     to handle showing the right state:
     <pre><code class="java-code">
         private void updateUI() {
@@ -169,7 +169,7 @@ Inside the TextView, it's font is set based on the isFavorited state also:
 <p>We can now update our fragment code to use the binding. You can see the other
     wonderful side-effect of binding is not needing to use findViewById nor needing
     to cast.
-    We can also completely remove our updateUI() method. Any change to the model
+    We can also completely remove our <code>updateUI</code> method. Any change to the model
     will automatically update the layout.
     The class now looks like this:</p>
 
