@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Android Data Binding In Practice - truveris.github.com</title>
+        <meta name="description" content="Walkthrough of implementing new feature using Android's Data Binding features">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+        <!-- Stylesheets -->
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Lora:400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/lib/css/style.css">
+
+        <!-- RSS -->
+        <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
+
+        <!-- JS -->
+        <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">stLight.options({publisher: "ur-bd6ecc7d-a28e-7a33-9fa5-a9f85b7af5fe", doNotHash: false, doNotCopy: true, hashAddressBar: false});</script>
+
+        <!-- Social -->
+        <link href="https://plus.google.com/+Truverisprescriptions" rel="publisher">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@truveris">
+        <meta name="twitter:title" content="Android Data Binding In Practice - truveris.github.com">
+        <meta name="twitter:description" content="Walkthrough of implementing new feature using Android's Data Binding features">
+        <meta name="twitter:creator" content="@truveris">
+        <meta name="twitter:domain" content="truveris.github.io">
+        <meta name="twitter:image:src" content="/lib/img/scientist.svg">
+
+        <meta property="og:title" content="Android Data Binding In Practice - truveris.github.com">
+        <meta property="og:description" content="Walkthrough of implementing new feature using Android's Data Binding features">
+        <meta property="og:url" content="https://truveris.github.io/">
+        <meta property="og:site_name" content="truveris.github.io">
+        <meta property="og:type" content="blog">
+        <meta property="og:image" content="/lib/img/scientist.svg">
+
+        <!-- Force https -->
+        <script type="text/javascript">
+            var host = "truveris.github.io";
+            if ((host == window.location.host) && (window.location.protocol != "https:"))
+                window.location.protocol = "https";
+        </script>
+    </head>
+
+    <body itemscope itemtype="http://schema.org/WebPage">
+                <header class="header clearfix headroom headroom--top" id="header" role="banner">
+
+            <a href="/">
+                <span class="logo-dark-gray">truveris</span><span class="logo-light-gray">.github.io</span>
+            </a>
+
+            <a href="/jobs/" class="cta" role="link">
+                We are hiring <span class="icon-right-open-mini"></span>
+            </a>
+
+        </header>
+
+        
+
+
+
+
+
+<article itemtype="http://schema.org/BlogPosting" itemscope class="main hentry entry" role="main">
+
+    <!-- Article header -->
+    <header>
+        <figure>
+            <img src="/lib/img/scientist.svg" alt="Android Data Binding In Practice" class="roundimg">
+        </figure>
+
+        <h1 itemprop="name headline" role="heading">Android Data Binding In Practice</h1>
+    </header>
+
+    <!-- Article content -->
+    <div itemprop="description articleBody" class="entry-content">
+        
+
+<p>Inspired by a Google I/O talk, I decided to leverage some of Android's Data
+    Binding capabilities when building out a new feature in our OneRx application.
+    Result: I loved it.</p>
+<h3>Android Data Binding</h3>
+<p>Google I/O 2016 had a great talk on the latest features in Android Data Binding:
+    <b><a href="https://events.google.com/io2016/schedule?filters=Android&sid=61d80842-c8f6-e511-a517-00155d5066d7#day2/61d80842-c8f6-e511-a517-00155d5066d7">Advanced Data Binding</a></b>.
+    I highly recommend watching it. The summary is that it covered Data Binding
+    features including two-way data binding, method references, and lambdas.
+    These features let developers bind UI fields to data objects in layout files alone,
+    without any code. Additionally methods and lambdas (simple functions) can be
+    called from within the layout files as a result of user action (for example <code>onClick:</code>).</p>
+
+<p>I know I'm not alone in the frustration of how much boilerplate / glue code there is in
+    Android when writing UI classes. First you have to use findViewById to
+    find the view, then set its state, then add a clickListener to handle its
+    events. Then, if your model data changes, you have to update the view's state.</p>
+
+<p>The promise of Data Binding is to minimize the amount of glue and boilerplate
+    code. The I/O talk was compelling and convincing, so I decided to try out
+    these ideas in a new feature I was writing for our
+    <b><a href="https://play.google.com/store/apps/details?id=com.onerx.android&hl=en">OneRx Android app</a></b>.</p>
+<h3>The task at hand</h3>
+<p>My task was to create a contextual menu that would be triggered by an action
+    button click:</p>
+<img class="small-image" src="context_menu.jpg" alt="Context Menu">
+<p>The feature is simple. There are one or two views that appear as a popup, that
+    track the "is favorite" state of the result drug and/or pharmacy. Whenever a user
+    toggles the switch the "is favorite" state should toggle
+    locally and call our API to set the new state on the server.</p>
+<p>Our concern here is how to track the "is favorite" state, update the view to
+    reflect the current state, and trigger the API call. For the sake of discussion
+    let's simplify the problem and just concern ourselves with a single
+    view (Add Medication).</p>
+<h3>This is not the code you are looking for</h3>
+<p>Let's try it the old way first. We need to link the model to the UI and
+    handle the actions. We'll use a Fragment to control the view for our example.
+    First let's make the layout file:
+    <pre><code class="java-code">
+        &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        &lt;RelativeLayout
+        xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:background=&quot;@drawable/white_with_blue_border&quot;&gt;
+            &lt;Switch
+                style=&quot;@style/Switch&quot;
+                android:id=&quot;@+id/switch_favorite&quot;
+                android:padding=&quot;@dimen/padding_regular&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_centerVertical=&quot;true&quot;
+                android:layout_alignParentLeft=&quot;true&quot; /&gt;
+            &lt;TextView
+                android:id=&quot;@+id/label_title&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_centerInParent=&quot;true&quot;
+                android:textColor=&quot;@color/blue&quot;
+                android:textSize=&quot;@dimen/font_size_xlarge&quot;
+                android:padding=&quot;@dimen/padding_regular&quot;
+                android:text=&quot;Add Favorite&quot;/&gt;
+            &lt;ImageView
+                android:id=&quot;@+id/image_check&quot;
+                android:layout_width=&quot;wrap_content&quot;
+                android:layout_height=&quot;wrap_content&quot;
+                android:layout_centerVertical=&quot;true&quot;
+                android:layout_alignParentRight=&quot;true&quot;
+                android:padding=&quot;@dimen/padding_regular&quot;
+                android:src=&quot;@drawable/context_icon_check&quot; /&gt;
+        &lt;/RelativeLayout&gt;
+    </code></pre>
+    That gives us our view:</p>
+<img class="small-image" src="view.jpg" alt="Favorite Item View">
+<p>Then in our fragment, we have to inflate the layout and get references
+    so all the subviews, and set listeners on the view and the switch.
+    <pre><code class="java-code">
+    public class TestFragment extends Fragment {
+
+        @Nullable
+        private Switch mSwitch;
+        @Nullable
+        private TextView mTitleLabel;
+        @Nullable
+        private ImageView mImageView;
+        @NonNull
+        // Could be injected or from intent or whatever.
+        private FavoriteDrugModel mDrugModel;
+
+        @Override
+       public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+           View view = inflater.inflate(R.layout.context_menu_popup_menu, container, false);
+           mSwitch = (Switch)view.findViewById(R.id.switch_favorite);
+           // Handle switch changes to change the favorited state
+           mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+               @Override
+               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                   setIsFavorite(isChecked);
+               }
+           });
+           // Find the title label and image view so we can change their state on model state change.
+           mTitleLabel = (TextView) view.findViewById(R.id.label_title);
+           mImageView = (ImageView) view.findViewById(R.id.image_check);
+
+           // Update UI to reflect current model state
+           updateUI();
+           return view;
+       }
+       ...
+    </code></pre>
+    So much glue code! We need an <code>updateUI</code> method too,
+    to handle showing the right state:
+    <pre><code class="java-code">
+        private void updateUI() {
+            if (mSwitch != null) {
+                mSwitch.setChecked(mDrugModel.getIsFavorited());
+            }
+            if (mTitleLabel != null) {
+                if (mDrugModel.getIsFavorited()) {
+                    mTitleLabel.setTypeface(boldTypeFace);
+                } else {
+                    mTitleLabel.setTypeface(lightTypeFace);
+                }
+            }
+            if (mImageView != null) {
+                if (mDrugModel.getIsFavorited()) {
+                    mImageView.setImageResource(R.drawable.context_icon_check);
+                } else {
+                    mImageView.setImageResource(R.drawable.context_icon_plus);
+                }
+            }
+        }
+    </code></pre>
+    And then lastly we need to do the API call and handle the response. And,
+    not forget to update the UI after we update the model state.</p>
+
+<h3>An Elegant Weapon for a More Civilized Age</h3>
+<p>Data-binding is our weapon against unneeded code. We can remove the glue code
+    by providing the model object to the layout xml file. In xml we can use the
+    model state to determine how the UI should look. As per the
+    <b><a href="https://developer.android.com/topic/libraries/data-binding/index.html">Android developer documentation</a></b>,
+    first the layout must be wrapped in a <code>&lt;layout&gt;</code> tag. Then,
+    the data model can be provided to the layout via a <code>&lt;data&gt;&lt;variable&gt;</code> tag.
+
+    The variable name is what we want to use in the layout file to reference it,
+    and its type is the class it is.
+
+    Note: If we wanted to set the view's visibility, or anything else that depends
+    on an import, we can use <code>&lt;import&gt;</code> to access it.
+    E.g.<code>&lt;import type=&quot;android.view.View&quot;/&gt;</code></p>
+
+<p>To use data binding on a view, all we need to do is use <code>"@{}"</code>.
+    So, inside our RelativeLayout, our background can be set based on the isFavorited state:
+</p>
+<pre><code class="java-code">android:background="@{favoriteDrug.isFavorited ? @drawable/white_with_blue_border : @drawable/unselected_blue_with_border}"></code></pre>
+<p>
+Inside the TextView, it's font is set based on the isFavorited state also:
+</p>
+<pre><code class="java-code">android:src="@{favoriteDrug.isFavorited ? @drawable/context_icon_check : @drawable/context_icon_plus}"</code></pre>
+<p>The real magic is the <italic>two-way</italic> binding we can do on the
+    switch. Instead of just making the switch state reflect the model state,
+    we can make the model state change if the switch state changes. Two-way binding
+    is accomplished simply by replacing <code>"@{}"</code> with <code>"@={}"</code>.
+
+    The switch in our layout therefore looks like this:</p>
+<pre><code class="java-code">android:checked="@={favoriteDrug.isFavorited}"</code></pre>
+
+<p>We can now update our fragment code to use the binding. You can see the other
+    wonderful side-effect of binding is not needing to use findViewById nor needing
+    to cast.
+    We can also completely remove our <code>updateUI</code> method. Any change to the model
+    will automatically update the layout.
+    The class now looks like this:</p>
+
+<pre><code class="java-code">
+    public class TestFragment extends Fragment {
+
+        // Could be injected or from intent or whatever.
+        private FavoriteDrugModel mDrugModel;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            ContextMenuFavoritableItemBinding binding = DataBindingUtil.inflate(inflater, R.layout.context_menu_popup_menu, container, false);
+
+            View view = binding.getRoot();
+            Switch mSwitch = binding.switchFavorite;
+            // Handle switch changes to change the favorited state
+            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setIsFavorite(isChecked);
+                }
+            });
+
+            return view;
+        }
+
+        private void setIsFavorite(boolean isFavorite) {
+            // Here we would do the API call here and get the response. Just pretend.
+            boolean newFavoriteState = isFavorite;
+            mDrugModel.setIsFavorited(newFavoriteState);
+        }
+    }
+</pre></code>
+
+<p>Isn't that much better?
+
+    As you can see a DataBinding class is automatically created from our layout
+    definition, which provides a setter for our favoriteDrug object, and
+    also getters for all the views in the layout (based on their ids).
+    <code>binding.getRoot()</code> returns the root view of the layout.
+
+    For now, we still need the onCheckedChangeListener to be set, because
+    although changing the switch checked state will update our model, it won't
+    trigger the API call.</p>
+
+<p>There was one surprise for me, which was that if I toggled the
+    switch in my UI, the model state would change, but the other UI elements
+    that were also bound to that model, would not change. In order to make
+    all bound UI elements refresh, I had to update my model slightly.
+    Calling <code>notifyPropertyChanged</code> ensures all the bound UI elements
+    would refresh.</p>
+
+<pre><code class="java-code">
+    public class FavoriteDrugModel extends BaseObservable
+    ...
+    public void setIsFavorited(boolean isFavorited) {
+        mIsFavorited = isFavorited;
+        // Need to notify property changed because multiple UI actions can
+        // cause the state to change, not just a single element.
+        notifyPropertyChanged(BR.isFavorited);
+    }
+</code></pre>
+<h3>Is that all?</h3>
+<p>We can do still better. Instead of having to set the change listener
+    for the switch, and call our method there, we can set the method to call
+    inside our layout xml file. We do have to be careful not to insert business
+    logic into our layout. The layout should only concern itself with UI. But,
+    there's no reason we need the glue code if we can just set the checkedChanged
+    handling in the layout.
+
+    By providing our class as another variable into the layout, we can call methods
+    on it, either by method reference or by lambda. I like the lamdba mechanism
+    since it lets me provide whatever parameters I want to the method.
+
+    We update our switch element in the xml like this:</p>
+<pre><code class="java-code">android:onCheckedChanged="@{()->presenter.switchChanged(!favoriteDrug.isFavorited)}"</code></pre>
+
+<p>Now our fragment code is much better. The view logic is declarative (inside the layout xml).
+    The model is two-way data bound, and our API call would take care of the
+    business logic outside of our fragment.
+    <pre><code class="java-code">
+        public class TestFragment extends Fragment {
+
+        // Could be injected or from intent or whatever.
+        private FavoriteDrugModel mDrugModel;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            ContextMenuFavoritableItemBinding binding = DataBindingUtil.inflate(inflater, R.layout.context_menu_popup_menu, container, false);
+            return binding.getRoot();
+        }
+
+        private void switchChanged(boolean newOnValue) {
+            // Here we would do the API call here and get the response. Just pretend.
+            boolean newFavoriteState = newOnValue;
+            // Even though the model was updated before, set it here in case the API call fails.
+            mDrugModel.setIsFavorited(newFavoriteState);
+        }
+    }
+    </code></pre></p>
+
+<h3>Conclusion</h3>
+<p>I'm pretty impressed with the amount of code I no longer need thanks to
+    Android's Data Binding features. As long as you make sure you use it for
+    what it is (moving glue code from view class to layout) and not try to do bad
+    things with it (triggering API calls from within your layout), it's a good tool.
+    It's definitely something I'll continue to use moving forward for my views and layouts.</p>
+
+        <div class="large-separator" role="separator"></div>
+    </div>
+
+    <!-- Article footer -->
+    <footer class="post-footer clearfix">
+
+            <div class="post-social">
+                <span class='st_twitter_hcount' displayText='Tweet' st_via="truveris"></span>
+                <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+            </div>
+
+            <div class="byline vcard">
+                <meta content="https://truveris.github.io//articles/android-advanced-data-binding/" itemprop="url">
+
+                <a href="https://github.com/kaleposhobios">
+                    <img src="/lib/img/helmet.svg" alt="Matthew Horst profil pic" class="profil_pic">
+                </a>
+
+                <span class="fn author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                    <a href="https://github.com/kaleposhobios" class="url"><span itemprop="name">Matthew Horst</span></a>
+                </span>
+                <br />
+                <time datetime="2016-06-24T12:15:00" itemprop="datePublished" class="date published updated">June 24, 2016</time>
+                <br />
+
+                <span class="org">Truveris</span>
+                <div class="adr">
+                    <span class="locality">New York</span>
+                    <span class="country-name">USA</span>
+                </div>
+            </div>
+
+    </footer>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'truveris'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</article>
+
+<p class="mobile-cta">
+	<a href="/jobs/" class="cta" role="link">
+		We are hiring <span class="icon-right-open-mini"></span>
+	</a>
+</p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/lib/js/min/core-min.js"></script>
+<script src="/lib/js/plugins/lightbox.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.image-link').magnificPopup({
+            type: 'image',
+            mainClass: 'mfp-with-zoom',
+            closeOnContentClick: true,
+
+            zoom: {
+                enabled: true,
+                duration: 300,
+                easing: 'ease-in-out',
+                opener: function(openerElement) {
+                    return openerElement.is('img') ? openerElement : openerElement.find('img');
+                }
+            }
+        });
+    });
+</script>
+
+
+                <footer class="footer clearfix" role="contentinfo">
+
+            <div class="wrap">
+
+                <p class="social">
+                    <a href="https://github.com/truveris/" data-tooltip="Github"><span class="icon-github"></span></a>
+                    <a href="https://twitter.com/truveris" data-tooltip="Twitter"><span class="icon-twitter"></span></a>
+                    <a href="https://www.linkedin.com/company/truveris" data-tooltip="Linkedin"><span class="icon-linkedin"></span></a>
+                </p>
+
+                <p class="copyright">
+                    <span class="company" itemprop="copyrightHolder sourceOrganization">
+						<a href="http://truveris.com" target="_blank"><img src="/lib/img/truveris-logo.png"/></a>
+					</span> ⓒ
+                    <span itemprop="copyrightYear">2015-2016</span>.
+                    <span class="rightsreserved">All Rights Reserved.</span>
+                </p>
+
+            </div>
+        </footer>
+
+        <script src="/lib/js/min/core-min.js"></script>
+
+        <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-31708065-8', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    </body>
+
+</html>
+
+
+
+

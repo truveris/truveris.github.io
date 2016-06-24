@@ -7,8 +7,27 @@
 	<link href="https://truveris.github.io/atom.xml" rel="self" />
 	<link href="https://truveris.github.io/" />
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-	<updated>2016-06-20T21:25:00</updated>
+	<updated>2016-06-24T12:15:00</updated>
 
+	<entry>
+		<title>Android Data Binding In Practice</title>
+		<link href="https://truveris.github.io/articles/android-advanced-data-binding/" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2016-06-24T12:15:00</updated>
+		<summary>Walkthrough of implementing new feature using Android's Data Binding features</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				Inspired by a Google I/O talk, I decided to leverage some of Android's Data
+Binding capabilities when building out a new feature in our OneRx application.
+Result: I loved it.
+
+			</div>
+		</content>
+		<author>
+			<name>Matthew Horst</name>
+			<email>mhorst@truveris.com</email>
+		</author>
+	</entry>
 	<entry>
 		<title>My Tests Are Slow</title>
 		<link href="https://truveris.github.io/articles/my-tests-are-slow/" />

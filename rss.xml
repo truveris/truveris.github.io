@@ -14,6 +14,15 @@
         <atom:link href="https://truveris.github.io/rss.xml" rel="self" type="application/rss+xml" />
 
         <item>
+            <media:thumbnail url="https://truveris.github.io/lib/img/scientist.svg" />
+            <title>Android Data Binding In Practice</title>
+            <pubDate>Fri, 24 Jun 2016 16:15:00 -0000</pubDate>
+            <dc:creator>Matthew Horst</dc:creator>
+            <description><![CDATA[Walkthrough of implementing new feature using Android's Data Binding features]]></description>
+            <guid isPermaLink="true">https://truveris.github.io/articles/android-advanced-data-binding/</guid>
+            <link>https://truveris.github.io/articles/android-advanced-data-binding/</link>
+        </item>
+        <item>
             <media:thumbnail url="https://truveris.github.io/lib/img/helmet.svg" />
             <title>My Tests Are Slow</title>
             <pubDate>Tue, 21 Jun 2016 01:25:00 -0000</pubDate>
