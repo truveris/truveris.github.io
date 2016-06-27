@@ -11,14 +11,14 @@ body {
     overflow-x: hidden;
 }
 
-.logo-dark-gray { 
+.logo-dark-gray {
 	color:#656565;
 	font-weight:600;
 	font-size: 30px;
 }
 
-.logo-light-gray { 
-	color:#999999; 
+.logo-light-gray {
+	color:#999999;
 	font-weight:600;
 	font-size: 30px;
 }
@@ -209,6 +209,18 @@ POST LISTING
             background: none;
         }
 
+        .java-code {
+            white-space: pre-wrap;       /* CSS 3 */
+            white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            padding:0px;
+            margin:0px;
+            font-size: 0.6em;
+        }
+
+
         /* Post footer */
         .byline {
             display: inline-block;
@@ -259,6 +271,11 @@ IMAGES
     margin: 1em 0;
 }
 
+img.small-image {
+    width: 30%;
+    height: auto;
+}
+
 /******************************************************************
 FOOTER
 ******************************************************************/
@@ -275,7 +292,7 @@ FOOTER
 		position: relative;
   		top: 5px;
     }
-	
+
 	.company a img{
 		width:160px;
 	}
