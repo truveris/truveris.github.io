@@ -7,8 +7,25 @@
 	<link href="https://truveris.github.io/atom.xml" rel="self" />
 	<link href="https://truveris.github.io/" />
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-	<updated>2016-06-24T12:15:00</updated>
+	<updated>2016-06-27T12:10:00</updated>
 
+	<entry>
+		<title>At PyCon I learned</title>
+		<link href="https://truveris.github.io/articles/pycon-2016/" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2016-06-27T12:10:00</updated>
+		<summary>PyCon 2016 conference and graceful degradation when services fail</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				The failure of networks and services our systems depend on is inevitable. How do we deal with these situations?
+
+			</div>
+		</content>
+		<author>
+			<name>Kaisa Filppula</name>
+			<email>kfilppula@truveris.com</email>
+		</author>
+	</entry>
 	<entry>
 		<title>Android Data Binding In Practice</title>
 		<link href="https://truveris.github.io/articles/android-advanced-data-binding/" />

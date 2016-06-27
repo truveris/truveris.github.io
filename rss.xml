@@ -15,6 +15,15 @@
 
         <item>
             <media:thumbnail url="https://truveris.github.io/lib/img/scientist.svg" />
+            <title>At PyCon I learned</title>
+            <pubDate>Mon, 27 Jun 2016 16:10:00 -0000</pubDate>
+            <dc:creator>Kaisa Filppula</dc:creator>
+            <description><![CDATA[PyCon 2016 conference and graceful degradation when services fail]]></description>
+            <guid isPermaLink="true">https://truveris.github.io/articles/pycon-2016/</guid>
+            <link>https://truveris.github.io/articles/pycon-2016/</link>
+        </item>
+        <item>
+            <media:thumbnail url="https://truveris.github.io/lib/img/scientist.svg" />
             <title>Android Data Binding In Practice</title>
             <pubDate>Fri, 24 Jun 2016 16:15:00 -0000</pubDate>
             <dc:creator>Matthew Horst</dc:creator>
