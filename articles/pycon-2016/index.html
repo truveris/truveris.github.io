@@ -117,17 +117,14 @@
     service. Our function could look something like this:
 </p>
 
-<p style="margin-bottom: 0">
-    <b>def get_time():</b>
-    <div style="padding-left: 30px; margin-top: 0">
+<pre><code class="language-python">
+    def get_time():
         try:
-        <p style="padding-left: 30px; margin: 0">response = request.get('http://localhost:3001/time', timeout=3.0)</p>
+            response = request.get('http://localhost:3001/time', timeout=3.0)
         except requests.exceptions.Timeout:
-        <p style="padding-left: 30px; margin: 0">return 'Time not available'</p>
+            return 'Time not available'
         return response.json().get('datetime')
-        </br>
-    </div>
-</p>
+</code></pre>
 
 <p>
     If the time service is in unhealthy state, timeout forces an error in a given time.
@@ -159,16 +156,14 @@
 <p>
     <b>from retrying import retry</b>
 </p>
-<p style="margin-bottom: 0">
-    <b>@retry(stop_max_attempt_number=3, wait_exponential_multiplier=1000,
-        <div style="padding-left: 30px; margin: 0">wait_jitter_max=500)</div></b>
-    <b>def get_time():</b>
-    <div style="padding-left: 30px; margin-top: 0">
+<pre><code class="language-python">
+    @retry(stop_max_attempt_number=3, wait_exponential_multiplier=1000,
+            wait_jitter_max=500)
+    def get_time():
         ...
-        </br>raise Exception
-        </br>...
-    </div>
-</p>
+        raise Exception
+        ...
+</code></pre>
 
 <p>
     In the above example we set the total number of attemps to 3, introduce
@@ -204,18 +199,16 @@
     number of failures allowed) and reset_timeout (=how long we want to wait before
     letting the exploratory request go through). A simple example:
 </p>
-<p>
-    <b>time_breaker = pybreaker.CircuitBreaker(fail_max=2, reset_timeout=30)</b>
-</p>
-<p style="margin-bottom: 0">
-    <b>@time_breaker</b>
-    </br><b>def get_time():</b>
-    <div style="padding-left: 30px; margin-top: 0">
+
+<pre><code class="language-python">
+    time_breaker = pybreaker.CircuitBreaker(fail_max=2, reset_timeout=30)
+    
+    @time_breaker
+    def get_time():
         ...
-        </br>raise pybreaker.CircuitBreakerError
-        </br>...
-    </div>
-</p>
+        raise pybreaker.CircuitBreakerError
+        ...
+</code></pre>
 
 <p>The table below explains the pattern further:</p>
 

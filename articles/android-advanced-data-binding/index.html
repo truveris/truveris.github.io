@@ -119,7 +119,7 @@
 <p>Let's try it the old way first. We need to link the model to the UI and
     handle the actions. We'll use a Fragment to control the view for our example.
     First let's make the layout file:
-    <pre><code class="java-code">
+    <pre><code class="language-markup">
         &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         &lt;RelativeLayout
         xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
@@ -157,7 +157,7 @@
 <img class="small-image" src="view.jpg" alt="Favorite Item View">
 <p>Then in our fragment, we have to inflate the layout and get references
     so all the subviews, and set listeners on the view and the switch.
-    <pre><code class="java-code">
+    <pre><code class="language-java">
     public class TestFragment extends Fragment {
 
         @Nullable
@@ -193,7 +193,7 @@
     </code></pre>
     So much glue code! We need an <code>updateUI</code> method too,
     to handle showing the right state:
-    <pre><code class="java-code">
+    <pre><code class="language-java">
         private void updateUI() {
             if (mSwitch != null) {
                 mSwitch.setChecked(mDrugModel.getIsFavorited());
@@ -235,18 +235,18 @@
 <p>To use data binding on a view, all we need to do is use <code>"@{}"</code>.
     So, inside our RelativeLayout, our background can be set based on the isFavorited state:
 </p>
-<pre><code class="java-code">android:background="@{favoriteDrug.isFavorited ? @drawable/white_with_blue_border : @drawable/unselected_blue_with_border}"></code></pre>
+<pre><code class="language-java">android:background="@{favoriteDrug.isFavorited ? @drawable/white_with_blue_border : @drawable/unselected_blue_with_border}"></code></pre>
 <p>
 Inside the TextView, it's font is set based on the isFavorited state also:
 </p>
-<pre><code class="java-code">android:src="@{favoriteDrug.isFavorited ? @drawable/context_icon_check : @drawable/context_icon_plus}"</code></pre>
+<pre><code class="language-java">android:src="@{favoriteDrug.isFavorited ? @drawable/context_icon_check : @drawable/context_icon_plus}"</code></pre>
 <p>The real magic is the <italic>two-way</italic> binding we can do on the
     switch. Instead of just making the switch state reflect the model state,
     we can make the model state change if the switch state changes. Two-way binding
     is accomplished simply by replacing <code>"@{}"</code> with <code>"@={}"</code>.
 
     The switch in our layout therefore looks like this:</p>
-<pre><code class="java-code">android:checked="@={favoriteDrug.isFavorited}"</code></pre>
+<pre><code class="language-java">android:checked="@={favoriteDrug.isFavorited}"</code></pre>
 
 <p>We can now update our fragment code to use the binding. You can see the other
     wonderful side-effect of binding is not needing to use findViewById nor needing
@@ -255,7 +255,7 @@ Inside the TextView, it's font is set based on the isFavorited state also:
     will automatically update the layout.
     The class now looks like this:</p>
 
-<pre><code class="java-code">
+<pre><code class="language-java">
     public class TestFragment extends Fragment {
 
         // Could be injected or from intent or whatever.
@@ -304,7 +304,7 @@ Inside the TextView, it's font is set based on the isFavorited state also:
     Calling <code>notifyPropertyChanged</code> ensures all the bound UI elements
     would refresh.</p>
 
-<pre><code class="java-code">
+<pre><code class="language-java">
     public class FavoriteDrugModel extends BaseObservable
     ...
     public void setIsFavorited(boolean isFavorited) {
@@ -327,12 +327,12 @@ Inside the TextView, it's font is set based on the isFavorited state also:
     since it lets me provide whatever parameters I want to the method.
 
     We update our switch element in the xml like this:</p>
-<pre><code class="java-code">android:onCheckedChanged="@{()->presenter.switchChanged(!favoriteDrug.isFavorited)}"</code></pre>
+<pre><code class="language-java">android:onCheckedChanged="@{()->presenter.switchChanged(!favoriteDrug.isFavorited)}"</code></pre>
 
 <p>Now our fragment code is much better. The view logic is declarative (inside the layout xml).
     The model is two-way data bound, and our API call would take care of the
     business logic outside of our fragment.
-    <pre><code class="java-code">
+    <pre><code class="language-java">
         public class TestFragment extends Fragment {
 
         // Could be injected or from intent or whatever.
