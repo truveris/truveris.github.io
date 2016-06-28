@@ -71,10 +71,9 @@
     other parameters to the request. It's very simple to use:
 </p>
 
-<p>
-    <b>from retrying import retry</b>
-</p>
 <pre><code class="language-python">
+    from retrying import retry
+
     @retry(stop_max_attempt_number=3, wait_exponential_multiplier=1000,
             wait_jitter_max=500)
     def get_time():
