@@ -1,0 +1,184 @@
+<%inherit file="/articles/base.mako" />
+
+<p>
+    PyCon 2016 was held in Portland, Oregon at the end of May. I was one of
+    the lucky 3000 or so Python developers able to attend. During the three day
+    conference I listened to a total of 22 talks. I wanted to share something I
+    learned there and picked one of my favorite talks, Daniel Riti's talk on
+    <b><a href="https://www.youtube.com/watch?v=dY-SkuENZP8"> gracefully
+    degrading service failures</a></b>.
+</p>
+
+<h3>Remote Calls and Service Failure</h3>
+
+<p>
+    The failure of networks and services our systems depend on
+    is inevitable. How do we deal with these situations?
+    Daniel focused on the following three techniques:
+    <ul style="list-style: none"><li><b>1.</b> Retries</li>
+    <li><b>2.</b> Timeouts</li>
+    <li><b>3.</b> Circuit Breaker Pattern</li></ul>
+
+    I'm going to briefly introduce each one of them.
+</p>
+
+<h3>Timeouts</h3>
+
+<p style="font-style: italic">
+    "Your code can't just wait forever for a response that might never come, sooner
+    or later, it needs to give up. Hope is not a design method."
+    <span style="font-style: normal"> -Michael T. Nygard, Release It!</span>
+</p>
+
+<p>
+    Let's assume we have a simple web app using Python's <b><a href="https://pypi.python.org/pypi/requests/">requests</a></b> library to get the current time from a remote time
+    service. Our function could look something like this:
+</p>
+
+<pre><code class="language-python">
+    def get_time():
+        try:
+            response = request.get('http://localhost:3001/time', timeout=3.0)
+        except requests.exceptions.Timeout:
+            return 'Time not available'
+        return response.json().get('datetime')
+</code></pre>
+
+<p>
+    If the time service is in unhealthy state, timeout forces an error in a given time.
+    In this case, we will give up after a three second wait. Timeouts are
+    extremely easy to use, since all you need to do is add an optional timeout
+    parameter to your request; however, timeout is still applying load to the
+    unhealthy service. Also, setting a timeout too short may mean we never
+    get the response from otherwise healthy service, or in the opposite case keep
+    user waiting without any kind of feedback for too long.
+</p>
+
+<h3>Retries</h3>
+
+<p>
+    Retry is pretty self explanatory: "If at first you don't succeed, attempt the
+    operation again". Since one request can have a multiplicative effect on a
+    system, it's important to evaluate if the benefit of obtaining a response from
+    a server outweighs potentially increasing load on the service.
+
+    If you decide to proceed with retries, then always limit the number of retries.
+    It's also a good practice to introduce a delay between retry attempts.
+
+    There's a wonderful library called <b>
+    <a href="https://pypi.python.org/pypi/retrying">retrying</a></b>
+    that let's you set not only the number of retries, but a whole bunch of
+    other parameters to the request. It's very simple to use:
+</p>
+
+<pre><code class="language-python">
+    from retrying import retry
+
+    @retry(stop_max_attempt_number=3, wait_exponential_multiplier=1000,
+            wait_jitter_max=500)
+    def get_time():
+        ...
+        raise Exception
+        ...
+</code></pre>
+
+<p>
+    In the above example we set the total number of attemps to 3, introduce
+    an exponentially growing delay between attempts and add a random jitter value
+    from 0 to 500ms to the wait so that it further spreads out the requests and
+    reduces the simultaneous load on the service.
+</p>
+
+<p>
+    Let's return to the multiplicative effect for a moment. What this actually means
+    is that if we have a system that has three layers above the database; backend,
+    frontend and javascript and each of these layers are using retries configured
+    to make 4 attempts, then in the worst scenario we end up making 64 attempts
+    from a <b>single</b> user interaction (4 tries ^ 3 levels).
+</p>
+
+
+<h3>Circuit Breaker Pattern</h3>
+
+<p>
+    Circuit breaker pattern differs from the previous two methods in that it actually
+    prevents operations when a depencency is unhealthy. It has three states: closed,
+    half-open, and open:
+</p>
+
+<div style="width: 70%; margin: 0 auto">
+    <img src="CBP.png" alt="Circuit Breaker Pattern"></img>
+</div>
+
+<p>
+    Again, there's a great library, called <b><a href="https://pypi.python.org/pypi/pybreaker">
+    pybreaker</a></b> that allows you to set parameters like fail_max (=maximum
+    number of failures allowed) and reset_timeout (=how long we want to wait before
+    letting the exploratory request go through). A simple example:
+</p>
+
+<pre><code class="language-python">
+    time_breaker = pybreaker.CircuitBreaker(fail_max=2, reset_timeout=30)
+    
+    @time_breaker
+    def get_time():
+        ...
+        raise pybreaker.CircuitBreakerError
+        ...
+</code></pre>
+
+<p>The table below explains the pattern further:</p>
+
+<div style="width: 70%; margin: 0 auto">
+    <img src="CBP_table.png" alt="Circuit Breaker Pattern"></img>
+</div>
+
+<p>
+    The first two requests go through ok, since the response time is under the
+    timeout value of 3 seconds. The state of the circuit breaker pattern is closed.
+    The third request takes 3s and fails due to the timeout; but, as we let it
+    fail twice before triggering the circuit breaker pattern, the state of it is
+    still closed. The next failing request reaches the max number of failures allowed
+    and sets the circuit breaker pattern to open state.
+    During the next 30 seconds all incoming requests are prevented.
+</p>
+
+<div style="width: 70%; margin: 0 auto">
+    <img src="CBP_30s.png" alt="Circuit Breaker Pattern"></img>
+</div>
+
+<p>
+    At the 30s mark, the state of the circuit breaker pattern is set to half-open
+    and if the problem was fixed, like in our example, we allow the next request to
+    go through for exploratory purposes. If it's successful, the state gets set to
+    closed and requests are allowed to go through again. If the exploratory
+    request failed, then another 30s wait would trigger.
+</p>
+
+<p>
+    The circuit breaker pattern used together with timeouts offers a smooth user
+    experience since users don't have to wait until the timeout triggers.
+    This tool also reduces load on unhealthy services and prevents unhealthy
+    service affecting the whole system.
+</p>
+
+<p>
+    The advantages of this approach are obvious; however, it's important to pay
+    attention to the parameters. A good approach is to monitor traffic and
+    set parameters based on average response times.
+</p>
+
+
+<h3>Learn More</h3>
+
+<p>
+    Thanks to Daniel for an informative talk. If you want to hear more, please
+    check out his talk on youtube: <b><a href="https://www.youtube.com/watch?v=dY-SkuENZP8">Remote Calls != Local Calls: Graceful Degradation when Services Fail</a></b>
+</p>
+
+<p>
+    All PyCon talks were recorded, so their <b><a href="https://www.youtube.com/channel/UCwTD5zJbsQGJN75MwbykYNw">PyCon 2016 channel</a></b> is an exellent resource for learning about all Python related topics, highly recommended!
+</p>
+
+
+## vim: ft=mako

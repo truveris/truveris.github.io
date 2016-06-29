@@ -11,14 +11,14 @@ body {
     overflow-x: hidden;
 }
 
-.logo-dark-gray { 
+.logo-dark-gray {
 	color:#656565;
 	font-weight:600;
 	font-size: 30px;
 }
 
-.logo-light-gray { 
-	color:#999999; 
+.logo-light-gray {
+	color:#999999;
 	font-weight:600;
 	font-size: 30px;
 }
@@ -259,6 +259,11 @@ IMAGES
     margin: 1em 0;
 }
 
+img.small-image {
+    width: 30%;
+    height: auto;
+}
+
 /******************************************************************
 FOOTER
 ******************************************************************/
@@ -275,7 +280,7 @@ FOOTER
 		position: relative;
   		top: 5px;
     }
-	
+
 	.company a img{
 		width:160px;
 	}
