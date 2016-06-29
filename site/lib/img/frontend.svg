@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="280px" height="280px" viewBox="0 0 280 280" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>code</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M215.50664,8.8817842e-15 C233.989354,23.7314507 245,53.5787173 245,86 C245,163.319865 182.376899,226 105.127389,226 C63.2299099,226 25.6349426,207.561982 1.26121336e-13,178.350434 L1.27897692e-13,0 L215.50664,0 Z" id="path-1"></path>
+        <circle id="path-3" cx="64" cy="64" r="64"></circle>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="12" dy="12" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.0235294118   0 0 0 0 0.0431372549   0 0 0 0 0.0588235294  0 0 0 0.16 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <mask id="mask-5" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="128" height="128" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="moomoo" transform="translate(-580.000000, -1870.000000)">
+            <g id="post-copy" transform="translate(400.000000, 1870.000000)">
+                <g id="code" transform="translate(180.000000, 0.000000)">
+                    <path d="M140,280 C217.319865,280 280,217.319865 280,140 C280,62.680135 217.319865,0 140,0 C62.680135,0 0,62.680135 0,140 C0,217.319865 62.680135,280 140,280 Z" id="bg" fill="#D1C4E9"></path>
+                    <g id="Base" transform="translate(35.000000, 28.000000)">
+                        <g id="Body" transform="translate(0.000000, 26.000000)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Main" fill="#314D5C" xlink:href="#path-1"></use>
+                            <g id="Content" mask="url(#mask-2)" fill="#486574" fill-opacity="0.799422554">
+                                <g transform="translate(40.000000, 26.000000)">
+                                    <rect id="Rectangle-4-Copy" x="0" y="0" width="80" height="8" rx="2"></rect>
+                                    <rect id="Rectangle-4-Copy-4" x="0" y="18" width="180" height="8" rx="2"></rect>
+                                    <rect id="Rectangle-4-Copy-12" x="0" y="124" width="80" height="8" rx="2"></rect>
+                                    <rect id="Rectangle-4-Copy-10" x="0" y="142" width="180" height="8" rx="2"></rect>
+                                    <rect id="Rectangle-4-Copy-6" x="0" y="46" width="180" height="58" rx="2"></rect>
+                                    <rect id="Rectangle-4-Copy-14" x="0" y="170" width="180" height="40" rx="2"></rect>
+                                </g>
+                            </g>
+                        </g>
+                        <g id="header">
+                            <g id="bg" fill="#2A414E">
+                                <path d="M217,28 C209.037308,17.398537 199.604678,7.9643297 189.004718,6.81588119e-12 L20.9853597,6.81765755e-12 C13.3461994,5.73971883 6.31332381,12.2428584 3.46389584e-14,19.3961462 L4.26325641e-14,28 L217,28 Z"></path>
+                                <rect id="bg2" x="0" y="6.82121026e-12" width="56" height="28" rx="6"></rect>
+                            </g>
+                            <g id="Buttons" transform="translate(16.333333, 9.333333)" fill="#43606F">
+                                <circle id="Max" cx="4" cy="4.66666667" r="4"></circle>
+                                <circle id="Min" cx="18.6666667" cy="4.66666667" r="4"></circle>
+                                <path d="M32.6666667,8.66666667 C34.8758057,8.66666667 36.6666667,6.87580567 36.6666667,4.66666667 C36.6666667,2.45752767 34.8758057,0.666666667 32.6666667,0.666666667 C30.4575277,0.666666667 28.6666667,2.45752767 28.6666667,4.66666667 C28.6666667,6.87580567 30.4575277,8.66666667 32.6666667,8.66666667 Z" id="Close"></path>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="mag_glass" transform="translate(152.000000, 140.000000)">
+                        <path d="M64.5,126 C98.4655121,126 126,98.4655121 126,64.5 C126,30.5344879 98.4655121,3 64.5,3 C30.5344879,3 3,30.5344879 3,64.5 C3,98.4655121 30.5344879,126 64.5,126 Z" id="bg" fill="#314D5C"></path>
+                        <g id="code" transform="translate(33.000000, 22.000000)">
+                            <rect id="Rectangle-579" fill="#7FD2EF" x="0" y="0" width="32" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-5" fill="#C8E6C9" x="0" y="60" width="32" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy" fill="#D1C4E9" x="10" y="12" width="44" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-11" fill="#FFCCBC" x="58" y="12" width="8" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-2" fill="#C8E6C9" x="10" y="24" width="40" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-8" fill="#D1C4E9" x="22" y="84" width="16" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-10" fill="#FFCCBC" x="10" y="84" width="8" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-6" fill="#D1C4E9" x="10" y="72" width="40" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-3" fill="#D1C4E9" x="42" y="36" width="28" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-9" fill="#F8BBD0" x="30" y="36" width="8" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-4" fill="#7FD2EF" x="30" y="48" width="24" height="4" rx="2"></rect>
+                            <rect id="Rectangle-579-Copy-7" fill="#F8BBD0" x="54" y="72" width="8" height="4" rx="2"></rect>
+                        </g>
+                        <g id="top">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                            <use stroke="#FFFFFF" mask="url(#mask-5)" stroke-width="10" xlink:href="#path-3"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
