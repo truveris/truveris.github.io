@@ -23,7 +23,7 @@
             <link>https://truveris.github.io/articles/pycon-2016/</link>
         </item>
         <item>
-            <media:thumbnail url="https://truveris.github.io/lib/img/scientist.svg" />
+            <media:thumbnail url="https://truveris.github.io/lib/img/android.svg" />
             <title>Android Data Binding In Practice</title>
             <pubDate>Fri, 24 Jun 2016 16:15:00 -0000</pubDate>
             <dc:creator>Matthew Horst</dc:creator>
@@ -32,7 +32,7 @@
             <link>https://truveris.github.io/articles/android-advanced-data-binding/</link>
         </item>
         <item>
-            <media:thumbnail url="https://truveris.github.io/lib/img/helmet.svg" />
+            <media:thumbnail url="https://truveris.github.io/lib/img/server.svg" />
             <title>My Tests Are Slow</title>
             <pubDate>Tue, 21 Jun 2016 01:25:00 -0000</pubDate>
             <dc:creator>Ryan Kelly</dc:creator>
@@ -41,7 +41,7 @@
             <link>https://truveris.github.io/articles/my-tests-are-slow/</link>
         </item>
         <item>
-            <media:thumbnail url="https://truveris.github.io/lib/img/helmet.svg" />
+            <media:thumbnail url="https://truveris.github.io/lib/img/frontend.svg" />
             <title>Break On Attribute Change</title>
             <pubDate>Tue, 14 Jun 2016 02:32:00 -0000</pubDate>
             <dc:creator>Ryan Kelly</dc:creator>
