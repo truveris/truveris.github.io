@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Logging - truveris.github.com</title>
+        <meta name="description" content="logging how-to">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+        <!-- Stylesheets -->
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Lora:400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/lib/css/style.css">
+
+        <!-- RSS -->
+        <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
+
+        <!-- JS -->
+        <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">stLight.options({publisher: "ur-bd6ecc7d-a28e-7a33-9fa5-a9f85b7af5fe", doNotHash: false, doNotCopy: true, hashAddressBar: false});</script>
+
+        <!-- Social -->
+        <link href="https://plus.google.com/+Truverisprescriptions" rel="publisher">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@truveris">
+        <meta name="twitter:title" content="Logging - truveris.github.com">
+        <meta name="twitter:description" content="logging how-to">
+        <meta name="twitter:creator" content="@truveris">
+        <meta name="twitter:domain" content="truveris.github.io">
+        <meta name="twitter:image:src" content="/lib/img/stats.svg">
+
+        <meta property="og:title" content="Logging - truveris.github.com">
+        <meta property="og:description" content="logging how-to">
+        <meta property="og:url" content="https://truveris.github.io/">
+        <meta property="og:site_name" content="truveris.github.io">
+        <meta property="og:type" content="blog">
+        <meta property="og:image" content="/lib/img/stats.svg">
+
+        <!-- Force https -->
+        <script type="text/javascript">
+            var host = "truveris.github.io";
+            if ((host == window.location.host) && (window.location.protocol != "https:"))
+                window.location.protocol = "https";
+        </script>
+    </head>
+
+    <body itemscope itemtype="http://schema.org/WebPage">
+                <header class="header clearfix headroom headroom--top" id="header" role="banner">
+
+            <a href="/">
+                <span class="logo-dark-gray">truveris</span><span class="logo-light-gray">.github.io</span>
+            </a>
+
+            <a href="/jobs/" class="cta" role="link">
+                We are hiring <span class="icon-right-open-mini"></span>
+            </a>
+
+        </header>
+
+        
+
+
+
+
+
+<article itemtype="http://schema.org/BlogPosting" itemscope class="main hentry entry" role="main">
+
+    <!-- Article header -->
+    <header>
+        <figure>
+            <img src="/lib/img/stats.svg" alt="Logging" class="roundimg">
+        </figure>
+
+        <h1 itemprop="name headline" role="heading">Logging</h1>
+    </header>
+
+    <!-- Article content -->
+    <div itemprop="description articleBody" class="entry-content">
+        
+
+<p>🎶They roll down stairs and travel in pairs and over your devops dog🎶</p>
+
+<img alt="I swear this dog looks like our devops guy" title="I swear this dog looks like our devops guy" src="devops.jpg" />
+
+<p>
+    Well. Hopefully. Large numbers of software applications
+    (including some of our own at work) don't log enough, log
+    the wrong things, aren't actually logs, or don't end up
+    anywhere useful. But what's a developer to do? How do we
+    know when to log? Or what?
+</p>
+
+<p>
+    Logs are pretty cheap. In a typical configuration, logs are
+    collected locally where they are spooled before being sent
+    to a collection point (or a collection of collection
+    points). rsyslog is capable of efficiently handling
+    thousands of records per second. It is also capable of
+    filtering the logs based on arbitrary properties of the log
+    record, including the message itself. In a network with
+    sufficient throughput the network overhead associated with
+    even verbose logging from a busy application is rarely a
+    bottleneck. All of these factors combined mean that from an
+    infrastructure standpoint we should be going wild with
+    logs. Assuming your application can be easily configured by
+    your administrator (or by yourself) you can safely log
+    large volumes of information.
+</p>
+
+<p>
+    At the application level, logging is often done
+    synchronously. In Python (particularly the cPython
+    implementation), there is no real threading and no
+    opportunity to offload logs to a separate worker thread.
+    While unfortunate, applications rarely suffer from
+    performance issues here, especially when configured to send
+    logs locally. It is safe to log frequently in this manner
+    with little performance impact.
+</p>
+
+<p>
+    More frequently performance issues can arise when
+    attempting to log large amounts of information that involve
+    a side effect. For example, an application loads some
+    information from the database and logs it. If the logging
+    process causes additional information to be loaded from the
+    database, this can be problematic especially when iterating
+    over a large collection and performing a load at each step.
+    If your application is typically long running, slowdowns
+    like this can go unnoticed. Caution must be exercised when
+    logging data that may have network, disk, or process
+    related side effects.
+</p>
+
+<p>
+    Even with the above caveats, you still probably aren't
+    logging enough. In most cases, the performance issues
+    encountered above are more acceptable than a complete lack
+    of logging.
+</p>
+
+<h2>Not Logging Enough</h2>
+
+<p>
+    There are three aspects of not logging enough: information,
+    context, and frequency.
+</p>
+
+<p>
+    What information you should log is actually a lot more
+    straightforward than most people realize. When you call a
+    function and want to log that it is being called, some
+    obvious information to log are the parameters passed to the
+    function. You may, additionally, want to note the return
+    value of the function or the fact that the function is
+    returning. This pattern (ingress and egress logging) can
+    also provide useful information in the form of timestamp
+    deltas so you can see how long the function call took. You
+    may also want to actually log the execution time itself.
+    This sort of logging should generally be used for functions
+    that are major entry points for your application or any
+    function that has an extended running time (as a guideline,
+    anything over a second or two is probably "extended").
+</p>
+
+<p>
+    You should also strongly consider logging whenever your
+    service makes a call to an external resource, regardless of
+    the time taken. External resources like databases, files
+    (yes, logging that you're going to open a file and where it
+    is can be very helpful), APIs (even internal), and
+    subprocess invocations all should be logged. And you should
+    include as many of the parameters as you are able to when
+    doing so. Return values as well (see my comments on timing
+    above) are useful especially when the call is to a database
+    service or API.
+</p>
+
+<p>
+    Your logs need context. <code>"updated client"</code> is
+    not a particularly useful message. Don't assume you'll be
+    able to locate your log message based on a string like that
+    (and don't log empty strings. Jimmy logs empty strings). If
+    you updated a client, that client record probably has an
+    identifier and a name. Include them! We use SQLAlchemy as
+    our ORM and our base class that all other models inherit
+    from include a <code>__repr__</code> that interpolates the
+    class name and the primary key column values into the
+    output. The Client model can override this to include the
+    name.  SQLAlchemy also provides for an info attribute where
+    you can stash any information you want. It's not a bad
+    place to indicate extra fields you want interpolated into
+    your <code>__repr__</code>. So the above message becomes
+    <code>"updated client &lt;Client 1 'Jimmy, Inc.'&gt;"</code>.
+</p>
+
+<p>
+    Of course, you probably want to include what it is you
+    updated! SQLAlchemy's change events are great for this
+    because they will allow to define once that you want to
+    listen for attribute changes and then allow you to log them
+    all. <code>"set attribute 'phone" on &lt;Client 1 'Jimmy, Inc.'&gt; to '999-999-9999' from '000-000-0000'"</code>
+    can be automatically generated for every change. Pretty
+    cool.
+</p>
+
+<p>
+    What other context is there? In the information examples I
+    gave, I typically also log the function name so I can tell
+    where it is being called from. You can also use stack
+    inspection techniques to locate the module, class,
+    function, file, and line, but there can be an associated
+    performance penalty associated with doing so. The example
+    above for automatically logging attribute changes can
+    suffer from a lack of context but can be corrected using
+    this technique.
+</p>
+
+<p>
+    Logging via syslog (and many other methods) also typically
+    include other helpful context by default. Things like time
+    and hostname are some examples. Software versions are also
+    helpful, though you may want to log these just once at
+    application start. If you're logging from a device and it
+    has a physical location, you may want to include that
+    location in your log records, especially if the device can
+    move. Other aspects of the environment are natural targets
+    for inclusion as well.
+</p>
+
+<p>
+    We have many processes that log some information when they
+    begin running. For processes running from cron, this serves
+    as a kind of heartbeat. For web applications, logging when
+    a request begins and returns can serve the same purpose,
+    especially when a health check is being frequently executed
+    on the service. Long running daemons that wait for work
+    (for example, by selecting on a socket) should log after
+    each select timeout. Just because your application's
+    process is alive doesn't mean it is doing anything useful.
+    Logging frequently can help diagnose problems when your
+    application hangs or becomes deadlocked.
+</p>
+
+<h2>Record twice, log once, read over and over again</h2>
+
+<p>
+    Log records should be easily readable by humans. You aren't
+    really doing anyone any favors by logging in XML, so please
+    never, ever do that. JSON is also not a log format that you
+    really want to read. If log in binary from Python, consider
+    getting a job in a different field (obviously we all have
+    constraints. I build server based applications in Python.
+    Embedded devices in C might be a different story). Logs
+    should read like a biography of your process' lifetime.
+</p>
+
+<p>
+    But that doesn't mean we should create logs that can't be
+    read by machines. Very often, we would like to mine
+    information from logs, get statistics (we're all using some
+    form of statistics collection, right?), and sometime just
+    want grep to be useful. These considerations also require
+    that our logs be readable by programs as well. Typical
+    formats often include metadata and context in a structured
+    manner. This is good. But we should also be mindful of the
+    fact that our messages need some structure, too. When we
+    log times, people like formats like "1 day, 3 hours, 46
+    minutes, and 37.23 seconds". This is how people think about
+    and communicate time. But searching for processes that ran
+    longer than four hours with this format is less than ideal.
+    You should also include the time in milliseconds so that
+    you can easily extract and filter on that value from a
+    program.
+</p>
+
+<h2>Identifying Logs</h2>
+
+<img alt="yep, that's wood" title="yep, that's wood" src="https://3.bp.blogspot.com/_qqHbgA_Wy2s/TCR5fXLfcUI/AAAAAAAAAwc/t1mugJ6Mjo8/s1600/identifying-wood.jpg" />
+
+<pre>print("updated client {}".format(repr(client)))</pre>
+
+<p>
+    Not a log. Don't do that. Especially if you are a module
+    author. Your users will hate you.
+</p>
+
+<p><code>sys.stderr.write</code> is also not logging.</p>
+
+<pre>with open("/tmp/derp.log", "a") as logfp:
+    logfp.write("updated client {}".format(repr(client)))</pre>
+
+<p>
+    Still not logging. These approaches work in a pinch but are
+    definitely not a structured approach.
+</p>
+
+<pre>logger = logging.getLogger(__name__)
+logger.debug("updated client {}".format(repr(client)))</pre>
+
+<p>
+    Nailed it. This is how you log in most Python applications.
+    And this is the method you should always use. You should
+    also be loading your logging configuration using
+    logging.fileConfig. Your sysadmin will love you. Using
+    fileConfig allows complete control over your logs, their
+    format, and how they're emitted to other locations. Unless
+    you have special needs or are using an incompatible system
+    (I'm looking at you, twisted) this is the method you WILL
+    use.
+</p>
+
+<p>
+    As an added bonus, the entire Python ecosystem logs this
+    way. Modules can be instrumented with logging and with the
+    appropriate configuration you can collect the logs from
+    them as well. Want to see what SQLAlchemy is doing? How
+    about requests? It's as simple as configuring your logging
+    to collect from their loggers.
+</p>
+
+<h2>What level should we log at?</h2>
+
+<p>
+    debug is your go-to level. When in doubt, it's usually a
+    safe choice. Most items mentioned above will be debug
+    level. Some items like start events, quit events, and the
+    execution of slow functions should log slightly higher at
+    info. This affords your system administrator the ability to
+    discard debug level logs if so desired without sacrificing
+    important information regarding the application's current
+    state (and you should let them make that decision. Log!)
+    Warn should be used when the application encounters a state
+    in which it can continue but that should be brought to the
+    attention of someone. A condition such as an unexpectedly
+    slow network call is worthy of a warning. Errors are
+    anything that prevent the normal functioning of your
+    application. If at all possible, your application should
+    fail gracefully. But it should most certainly log the
+    condition that resulted in the error. If you're executing a
+    query and need to ensure some data is present before
+    proceeding, that missing data should result in a log
+    emitted at error level. Python also includes a
+    logger.exception method. You should use this when you are
+    handling an exception and want the stack trace
+    automatically logged for you as well.
+</p>
+
+<h2>Now that we've got logs, what do we do with them?</h2>
+
+<p>
+    Send them to a collection server. rsyslog supports
+    collecting logs locally, relaying logs, and also storing
+    your logs somewhere useful. You can then take those logs
+    and stash them in other tools, like the popular
+    elasticsearch-logstash-kibana (ELK) stack. You can send
+    them to a third party log collection and analysis service
+    like loggly. You can configure rsyslog to email you errors.
+    Just don't throw them away! There's a lot of valuable
+    information in those logs that you may have never known
+    that you needed, especially when your devops gets up at 3am
+    and subsequently wants to kill you.
+</p>
+
+
+        <div class="large-separator" role="separator"></div>
+    </div>
+
+    <!-- Article footer -->
+    <footer class="post-footer clearfix">
+
+            <div class="post-social">
+                <span class='st_twitter_hcount' displayText='Tweet' st_via="truveris"></span>
+                <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+            </div>
+
+            <div class="byline vcard">
+                <meta content="https://truveris.github.io//articles/logging/" itemprop="url">
+
+                <a href="https://github.com/f0rk">
+                    <img src="/lib/img/helmet.svg" alt="Ryan Kelly profil pic" class="profil_pic">
+                </a>
+
+                <span class="fn author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                    <a href="https://github.com/f0rk" class="url"><span itemprop="name">Ryan Kelly</span></a>
+                </span>
+                <br />
+                <time datetime="2016-07-01T22:04:00" itemprop="datePublished" class="date published updated">July 01, 2016</time>
+                <br />
+
+                <span class="org">Truveris</span>
+                <div class="adr">
+                    <span class="locality">New York</span>
+                    <span class="country-name">USA</span>
+                </div>
+            </div>
+
+    </footer>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'truveris'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</article>
+
+<p class="mobile-cta">
+	<a href="/jobs/" class="cta" role="link">
+		We are hiring <span class="icon-right-open-mini"></span>
+	</a>
+</p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/lib/js/min/core-min.js"></script>
+<script src="/lib/js/plugins/lightbox.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.image-link').magnificPopup({
+            type: 'image',
+            mainClass: 'mfp-with-zoom',
+            closeOnContentClick: true,
+
+            zoom: {
+                enabled: true,
+                duration: 300,
+                easing: 'ease-in-out',
+                opener: function(openerElement) {
+                    return openerElement.is('img') ? openerElement : openerElement.find('img');
+                }
+            }
+        });
+    });
+</script>
+
+
+                <footer class="footer clearfix" role="contentinfo">
+
+            <div class="wrap">
+
+                <p class="social">
+                    <a href="https://github.com/truveris/" data-tooltip="Github"><span class="icon-github"></span></a>
+                    <a href="https://twitter.com/truveris" data-tooltip="Twitter"><span class="icon-twitter"></span></a>
+                    <a href="https://www.linkedin.com/company/truveris" data-tooltip="Linkedin"><span class="icon-linkedin"></span></a>
+                </p>
+
+                <p class="copyright">
+                    <span class="company" itemprop="copyrightHolder sourceOrganization">
+						<a href="http://truveris.com" target="_blank"><img src="/lib/img/truveris-logo.png"/></a>
+					</span> ⓒ
+                    <span itemprop="copyrightYear">2015-2016</span>.
+                    <span class="rightsreserved">All Rights Reserved.</span>
+                </p>
+
+            </div>
+        </footer>
+
+        <script src="/lib/js/min/core-min.js"></script>
+
+        <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-31708065-8', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    </body>
+
+</html>
+
+
+
+
