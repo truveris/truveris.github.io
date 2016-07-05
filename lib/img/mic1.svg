@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="280px" height="280px" viewBox="0 0 280 280" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>MIC Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M140,280 C217.319865,280 280,217.319865 280,140 C280,62.680135 217.319865,0 140,0 C62.680135,0 0,62.680135 0,140 C0,217.319865 62.680135,280 140,280 Z" id="path-1"></path>
+        <path d="M32,59 L1.99150398,59 C0.901537657,59 0,59.8992496 0,61.0085302 L0,68.9914698 C0,70.0980496 0.891626704,71 1.99150398,71 L32,71 L32,83 L1.99150398,83 C0.901537657,83 0,83.8992496 0,85.0085302 L0,92.9914698 C0,94.0980496 0.891626704,95 1.99150398,95 L32,95 L32,107 L1.99150398,107 C0.901537657,107 0,107.89925 0,109.00853 L0,116.99147 C0,118.09805 0.891626704,119 1.99150398,119 L32,119 L32,131 L0,131 C0,161.927946 17.072054,187 48,187 C78.927946,187 96,161.927946 96,131 L64,131 L64,119 L94.008496,119 C95.0984623,119 96,118.10075 96,116.99147 L96,109.00853 C96,107.90195 95.1083733,107 94.008496,107 L64,107 L64,95 L94.008496,95 C95.0984623,95 96,94.1007504 96,92.9914698 L96,85.0085302 C96,83.9019504 95.1083733,83 94.008496,83 L64,83 L64,71 L94.008496,71 C95.0984623,71 96,70.1007504 96,68.9914698 L96,61.0085302 C96,59.9019504 95.1083733,59 94.008496,59 L64,59 L64,47 L96,47 L96,23.5 C96,10.5184547 85.4805138,0 72.50407,0 L23.49593,0 C10.511507,0 0,10.5213084 0,23.5 L0,47 L32,47 L32,59 Z" id="path-3"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="moomoo" transform="translate(-580.000000, -1039.000000)">
+            <g id="post" transform="translate(400.000000, 283.000000)">
+                <g id="MIC-Copy" transform="translate(180.000000, 756.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="bg" fill="#81C784" xlink:href="#path-1"></use>
+                    <g id="ASE" mask="url(#mask-2)">
+                        <g transform="translate(76.000000, 161.000000)">
+                            <g id="Group-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(4.000000, 4.000000)">
+                                <rect id="Rectangle-826-Copy" fill="#66BB6A" x="58" y="93" width="12" height="41"></rect>
+                                <path d="M128,0 L127.887072,22.1843313 C127.887072,61.917649 103.676854,94.1278672 63.9435359,94.1278672 C24.3231464,94.175726 0.112928243,61.9655078 0.112928243,22.2321901 L0,0.0478587489" id="Oval-632-Copy-2" stroke="#66BB6A" stroke-width="12" stroke-linecap="round"></path>
+                            </g>
+                            <rect id="Rectangle-826" stroke="none" fill="#EDF2F7" fill-rule="evenodd" x="58" y="93" width="12" height="41"></rect>
+                            <rect id="Rectangle-826-Copy-13" stroke="none" fill="#DCE4ED" fill-rule="evenodd" x="58" y="99" width="12" height="8"></rect>
+                            <path d="M128,0 L127.887072,22.1843313 C127.887072,61.917649 103.676854,94.1278672 63.9435359,94.1278672 C24.3231464,94.175726 0.112928243,61.9655078 0.112928243,22.2321901 L0,0.0478587489" id="Oval-632" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" fill="none"></path>
+                            <path d="M128.056464,0 L127.943536,22.1843313 C127.943536,61.917649 103.733318,94.1278672 64,94.1278672" id="Oval-632-Copy-145" stroke="#EDF2F7" stroke-width="12" stroke-linecap="round" fill="none"></path>
+                        </g>
+                    </g>
+                    <g id="MIC" mask="url(#mask-2)">
+                        <g transform="translate(92.000000, 52.000000)">
+                            <path d="M92,51 L92,63 L98.008496,63 C99.1083733,63 100,63.9019504 100,65.0085302 L100,72.9914698 C100,74.1007504 99.0984623,75 98.008496,75 L92,75 L92,87 L98.008496,87 C99.1083733,87 100,87.9019504 100,89.0085302 L100,96.9914698 C100,98.1007504 99.0984623,99 98.008496,99 L92,99 L92,111 L98.008496,111 C99.1083733,111 100,111.90195 100,113.00853 L100,120.99147 C100,122.10075 99.0984623,123 98.008496,123 L92,123 L92,135 L100,135 C100,165.927946 82.927946,191 52,191 C21.072054,191 4,165.927946 4,135 L12,135 L12,123 L5.99150398,123 C4.8916267,123 4,122.09805 4,120.99147 L4,113.00853 C4,111.89925 4.90153766,111 5.99150398,111 L12,111 L12,99 L5.99150398,99 C4.8916267,99 4,98.0980496 4,96.9914698 L4,89.0085302 C4,87.8992496 4.90153766,87 5.99150398,87 L12,87 L12,75 L5.99150398,75 C4.8916267,75 4,74.0980496 4,72.9914698 L4,65.0085302 C4,63.8992496 4.90153766,63 5.99150398,63 L12,63 L12,51 L4,51 L4,27.5 C4,14.5213084 14.511507,4 27.49593,4 L76.50407,4 C89.4805138,4 100,14.5184547 100,27.5 L100,51 L92,51 Z" id="Combined-Shape" stroke="none" fill="#66BB6A" fill-rule="evenodd"></path>
+                            <rect id="Rectangle-935" stroke="none" fill="#2A414E" fill-rule="evenodd" x="8" y="25" width="80" height="107"></rect>
+                            <rect id="Rectangle-935-Copy-3" stroke="none" fill="#314D5C" fill-rule="evenodd" x="8" y="25" width="40" height="107"></rect>
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <use id="Combined-Shape-Copy" stroke="none" fill="#314D5C" fill-rule="evenodd" xlink:href="#path-3"></use>
+                            <path d="M48,35 C48,13.4608948 30.5391052,-4 9,-4 C-12.5391052,-4 -30,13.4608948 -30,35 C-30,40.3255363 -28.9325737,45.4017619 -27,50.0263979 L-27,211 L11.5,211 L103,211 L103,189.577397 C98.1179686,191.776378 92.7018805,193 87,193 C65.4608948,193 48,175.539105 48,154 C48,153.665667 48.004207,153.332317 48.0125708,153 L48,35 Z" id="Combined-Shape" stroke="none" fill="#43606F" fill-rule="evenodd" mask="url(#mask-4)"></path>
+                            <rect id="Rectangle-953" stroke="none" fill="#314D5C" fill-rule="evenodd" mask="url(#mask-4)" x="32" y="47" width="4" height="12"></rect>
+                            <rect id="Rectangle-953-Copy" stroke="none" fill="#314D5C" fill-rule="evenodd" mask="url(#mask-4)" x="32" y="71" width="4" height="12"></rect>
+                            <rect id="Rectangle-953-Copy-2" stroke="none" fill="#314D5C" fill-rule="evenodd" mask="url(#mask-4)" x="32" y="95" width="4" height="12"></rect>
+                            <rect id="Rectangle-953-Copy-3" stroke="none" fill="#314D5C" fill-rule="evenodd" mask="url(#mask-4)" x="32" y="119" width="4" height="12"></rect>
+                            <rect id="Rectangle-953-Copy-11" stroke="none" fill="#2A414E" fill-rule="evenodd" mask="url(#mask-4)" transform="translate(62.000000, 53.000000) scale(-1, 1) translate(-62.000000, -53.000000) " x="60" y="47" width="4" height="12"></rect>
+                            <rect id="Rectangle-953-Copy-10" stroke="none" fill="#2A414E" fill-rule="evenodd" mask="url(#mask-4)" transform="translate(62.000000, 77.000000) scale(-1, 1) translate(-62.000000, -77.000000) " x="60" y="71" width="4" height="12"></rect>
+                            <rect id="Rectangle-953-Copy-9" stroke="none" fill="#2A414E" fill-rule="evenodd" mask="url(#mask-4)" transform="translate(62.000000, 101.000000) scale(-1, 1) translate(-62.000000, -101.000000) " x="60" y="95" width="4" height="12"></rect>
+                            <rect id="Rectangle-953-Copy-8" stroke="none" fill="#2A414E" fill-rule="evenodd" mask="url(#mask-4)" transform="translate(62.000000, 125.000000) scale(-1, 1) translate(-62.000000, -125.000000) " x="60" y="119" width="4" height="12"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
