@@ -1,4 +1,4 @@
-# Copyright 2015, Truveris Inc. All Rights Reserved.
+# Copyright 2015-2016, Truveris Inc. All Rights Reserved.
 
 import os
 
@@ -12,10 +12,11 @@ class Author(object):
     meta-data.
     """
 
-    def __init__(self, username, name, email):
+    def __init__(self, username, name, email, avatar):
         self.username = username
         self.name = name
         self.email = email
+        self.avatar = avatar
 
 
 def get_author(username):
@@ -30,6 +31,7 @@ def get_author(username):
         username=username,
         name=meta.read(os.path.join(path, "name")),
         email=meta.read(os.path.join(path, "email")),
+        avatar=meta.read(os.path.join(path, "avatar")),
     )
 
     return author

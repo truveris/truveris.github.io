@@ -33,7 +33,7 @@
                 <meta content="https://truveris.github.io/${article.url}" itemprop="url">
 
                 <a href="https://github.com/${article.author.username}">
-                    <img src="/lib/img/helmet.svg" alt="${article.author.name} profil pic" class="profil_pic">
+                    <img src="/lib/img/${article.author.avatar}" alt="${article.author.name} profil pic" class="profil_pic">
                 </a>
 
                 <span class="fn author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">

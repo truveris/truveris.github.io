@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="280px" height="280px" viewBox="0 0 280 280" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="140" cy="140" r="140"></circle>
+        <rect id="path-3" x="16" y="0" width="24" height="32"></rect>
+        <path d="M112,56 L112,16.009869 C112,7.16356738 104.835559,0 95.997774,0 L16.002226,0 C7.15508645,0 0,7.16786248 0,16.009869 L0,56 C0,86.927946 25.072054,112 56,112 C86.927946,112 112,86.927946 112,56 Z" id="path-5"></path>
+        <path d="M112,56 L112,16.009869 C112,7.16356738 104.835559,0 95.997774,0 L16.002226,0 C7.15508645,0 0,7.16786248 0,16.009869 L0,56 C0,86.927946 25.072054,112 56,112 C86.927946,112 112,86.927946 112,56 Z" id="path-7"></path>
+        <rect id="path-9" x="12" y="53" width="112" height="46"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-1-Copy-27" transform="translate(-260.000000, -138.000000)">
+            <g id="Icon" transform="translate(260.000000, 138.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Oval-660" fill="#FFD6D6" xlink:href="#path-1"></use>
+                <g id="back" mask="url(#mask-2)">
+                    <g transform="translate(71.000000, 88.000000)">
+                        <path d="M1,81.6969876 L1,29 L137,29 L137,81.9251269 C137,81.9251269 136.625796,182.231163 113,211 C89.3742036,239.768837 64.2076895,242.572458 31,211 C-2.20768951,179.427542 1,81.6969876 1,81.6969876 Z" id="Combined-Shape" fill="#0630B5"></path>
+                        <path d="M30.4143707,12 L20.4312745,12 C9.70130461,12 1,20.6987405 1,31.4291807 L1,80 L2.05546522,80 C7.72319717,111.832131 35.5392445,136 69,136 C102.460756,136 130.276803,111.832131 135.944535,80 L137,80 L137,31.4291807 C137,20.6986175 128.300322,12 117.568726,12 L107.585629,12 C96.6229435,4.4320186 83.3290484,0 69,0 C54.6709516,0 41.3770565,4.4320186 30.4143707,12 Z" id="shadow" fill="#041B72"></path>
+                    </g>
+                </g>
+                <rect id="Rectangle-298" fill="#0630B5" mask="url(#mask-2)" x="72" y="146" width="136" height="9"></rect>
+                <g id="body" mask="url(#mask-2)" fill="#0687FC">
+                    <g transform="translate(72.000000, 234.000000)" id="Combined-Shape">
+                        <path d="M0,44 C0,19.699471 19.7028947,0 43.9909547,0 L92.0090453,0 C116.304579,0 136,19.694128 136,44 L136,88 L0,88 L0,44 L0,44 Z"></path>
+                    </g>
+                </g>
+                <g id="face" mask="url(#mask-2)">
+                    <g transform="translate(70.000000, 45.000000)">
+                        <g id="coup" transform="translate(42.000000, 164.000000)">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <use id="Combined-Shape" fill="#FFBBBA" xlink:href="#path-3"></use>
+                            <path d="M28,15 C58.927946,15 84,-10.072054 84,-41 C84,-71.927946 58.927946,-97 28,-97 C-2.92794599,-97 -28,-71.927946 -28,-41 C-28,-10.072054 -2.92794599,15 28,15 Z" id="Oval-2-Copy" fill="#FF8988" mask="url(#mask-4)"></path>
+                            <g id="Group" transform="translate(0.000000, 17.000000)" fill="#FFFFFF">
+                                <polygon id="Path-14" points="42.0821205 0.139597039 28.4254945 13.9739549 55.9189951 23.9739549"></polygon>
+                                <polygon id="Path-14-Copy" transform="translate(14.172245, 12.056776) scale(-1, 1) translate(-14.172245, -12.056776) " points="14.0821205 0.139597039 0.425494467 13.9739549 27.9189951 23.9739549"></polygon>
+                            </g>
+                        </g>
+                        <g id="oreilles" transform="translate(0.000000, 102.000000)">
+                            <g id="ear">
+                                <circle id="Oval-8" fill="#FFBBBA" cx="14" cy="14" r="14"></circle>
+                                <path d="M14,23.3333333 C19.1546577,23.3333333 23.3333333,19.1546577 23.3333333,14 C23.3333333,8.84534234 19.1546577,4.66666667 14,4.66666667 C8.84534234,4.66666667 4.66666667,8.84534234 4.66666667,14 C4.66666667,19.1546577 8.84534234,23.3333333 14,23.3333333 Z" id="Oval-8-Copy" fill="#FFBBBA"></path>
+                                <circle id="Oval-8-Copy-2" fill="#FFBBBA" cx="18.6666667" cy="18.6666667" r="4.66666667"></circle>
+                                <polygon id="Star-1" fill="#FFFFFF" transform="translate(9.000000, 26.000000) rotate(45.000000) translate(-9.000000, -26.000000) " points="9 28.9786494 5.46446609 29.5355339 6.0213506 26 5.46446609 22.4644661 9 23.0213506 12.5355339 22.4644661 11.9786494 26 12.5355339 29.5355339"></polygon>
+                            </g>
+                            <g id="ear-copy" transform="translate(126.000000, 17.000000) scale(-1, 1) translate(-126.000000, -17.000000) translate(112.000000, 0.000000)">
+                                <circle id="Oval-8" fill="#FFBBBA" cx="14" cy="14" r="14"></circle>
+                                <circle id="Oval-8-Copy" fill="#FFBBBA" cx="14" cy="14" r="9.33333333"></circle>
+                                <circle id="Oval-8-Copy-2" fill="#FFBBBA" cx="18.6666667" cy="18.6666667" r="4.66666667"></circle>
+                                <polygon id="Star-1" fill="#FFFFFF" transform="translate(9.000000, 26.000000) rotate(45.000000) translate(-9.000000, -26.000000) " points="9 28.9786494 5.46446609 29.5355339 6.0213506 26 5.46446609 22.4644661 9 23.0213506 12.5355339 22.4644661 11.9786494 26 12.5355339 29.5355339"></polygon>
+                            </g>
+                        </g>
+                        <g id="Group-2" transform="translate(14.000000, 57.000000)">
+                            <mask id="mask-6" fill="white">
+                                <use xlink:href="#path-5"></use>
+                            </mask>
+                            <use id="shadow" fill="#FFBBBA" xlink:href="#path-5"></use>
+                            <path d="M112,46 L112,6.00986896 C112,-2.83643262 104.835559,-10 95.997774,-10 L16.002226,-10 C7.15508645,-10 0,-2.83213752 0,6.00986896 L0,46 C0,76.927946 25.072054,102 56,102 C86.927946,102 112,76.927946 112,46 Z" id="base-copy" fill="#FFD6D6" mask="url(#mask-6)"></path>
+                        </g>
+                        <g id="face-elem" transform="translate(14.000000, 57.000000)">
+                            <path d="M67.9871911,64.2857143 C67.7013597,70.2501609 62.6676985,75 56.5,75 C50.3323015,75 45.2986403,70.2501609 45.0128089,64.2857143 L45,64.2857143 L45,61.5472412 C45,60.6927235 45.6883443,60 46.5448088,60 L66.4551912,60 C67.3083656,60 68,60.6885741 68,61.5472412 L68,64.2857143 L67.9871911,64.2857143 Z" id="smile" fill="#FFFFFF"></path>
+                            <g id="cheveux">
+                                <mask id="mask-8" fill="white">
+                                    <use xlink:href="#path-7"></use>
+                                </mask>
+                                <g id="Combined-Shape-Copy-2"></g>
+                                <path d="M-6.3188825,20 L-12,20 C-12,-17.555363 18.444637,-48 56,-48 C93.555363,-48 124,-17.555363 124,20 L120.264464,20 C120.264464,20 120.264464,20 120.264464,20 L124,20 L124,54 L112,54 L112,31.6995721 C101.559795,38.227217 89.2204877,42 76,42 C56.227024,42 28.9581908,26.0143825 16.5330181,12.5411606 C15.8281749,18.2258152 18.7052221,27.2649707 35.9156809,37.2346057 C20.8435011,43.0584603 7.40438507,35.4382262 3.55271368e-15,29.5738369 L0,54 L-12,54 L-12,20 L-6.3188825,20 C-6.3188825,20 -6.3188825,20 -6.3188825,20 Z" id="Combined-Shape-Copy-3" fill="#FFBBBA" mask="url(#mask-8)"></path>
+                            </g>
+                            <path d="M31,48 C31,44.6862915 28.3137085,42 25,42 C21.6862915,42 19,44.6862915 19,48" id="eye" stroke="#041B72" stroke-width="3.5" stroke-linecap="round"></path>
+                            <path d="M93,47 C93,43.6862915 90.3137085,41 87,41 C83.6862915,41 81,43.6862915 81,47" id="eye" stroke="#041B72" stroke-width="3.5" stroke-linecap="round"></path>
+                            <ellipse id="paumette" fill="#FFBBBA" cx="21.5" cy="63" rx="8.5" ry="6"></ellipse>
+                            <ellipse id="paumette" fill="#FFBBBA" cx="90.5" cy="63" rx="8.5" ry="6"></ellipse>
+                        </g>
+                        <g id="cheveux" transform="translate(2.000000, 0.000000)">
+                            <mask id="mask-10" fill="white">
+                                <use xlink:href="#path-9"></use>
+                            </mask>
+                            <g id="Rectangle-522"></g>
+                            <path d="M5.6811175,68 L0,68 C0,30.444637 30.444637,0 68,0 C105.555363,0 136,30.444637 136,68 L132.264464,68 C132.264464,68 132.264464,68 132.264464,68 L136,68 L136,102 L124,102 L124,79.6995721 C113.559795,86.227217 101.220488,90 88,90 C68.227024,90 40.9581908,74.0143825 28.5330181,60.5411606 C27.8281749,66.2258152 30.7052221,75.2649707 47.9156809,85.2346057 C32.8435011,91.0584603 19.4043851,83.4382262 12,77.5738369 L12,102 L0,102 L0,68 L5.6811175,68 C5.6811175,68 5.6811175,68 5.6811175,68 Z" id="Combined-Shape-Copy-3" fill="#0630B5"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
