@@ -46,6 +46,8 @@ Create a new folder named after your GitHub account in the `authors/`
 folder and create the following files:
  * **name**: your full name
  * **email**: your email address
+ * **avatar**: name of a file located in `site/lib/img/` used in the footer of
+       the article as an avatar image.
 
 
 ## Adding a new article
