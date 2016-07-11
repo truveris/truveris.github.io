@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Jimmy - truveris.github.com</title>
+        <meta name="description" content="Jimmy, Jimmy-proofing">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+        <!-- Stylesheets -->
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Lora:400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/lib/css/style.css">
+
+        <!-- RSS -->
+        <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
+
+        <!-- JS -->
+        <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">stLight.options({publisher: "ur-bd6ecc7d-a28e-7a33-9fa5-a9f85b7af5fe", doNotHash: false, doNotCopy: true, hashAddressBar: false});</script>
+
+        <!-- Social -->
+        <link href="https://plus.google.com/+Truverisprescriptions" rel="publisher">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@truveris">
+        <meta name="twitter:title" content="Jimmy - truveris.github.com">
+        <meta name="twitter:description" content="Jimmy, Jimmy-proofing">
+        <meta name="twitter:creator" content="@truveris">
+        <meta name="twitter:domain" content="truveris.github.io">
+        <meta name="twitter:image:src" content="/lib/img/scientist.svg">
+
+        <meta property="og:title" content="Jimmy - truveris.github.com">
+        <meta property="og:description" content="Jimmy, Jimmy-proofing">
+        <meta property="og:url" content="https://truveris.github.io/">
+        <meta property="og:site_name" content="truveris.github.io">
+        <meta property="og:type" content="blog">
+        <meta property="og:image" content="/lib/img/scientist.svg">
+
+        <!-- Force https -->
+        <script type="text/javascript">
+            var host = "truveris.github.io";
+            if ((host == window.location.host) && (window.location.protocol != "https:"))
+                window.location.protocol = "https";
+        </script>
+    </head>
+
+    <body itemscope itemtype="http://schema.org/WebPage">
+                <header class="header clearfix headroom headroom--top" id="header" role="banner">
+
+            <a href="/">
+                <span class="logo-dark-gray">truveris</span><span class="logo-light-gray">.github.io</span>
+            </a>
+
+            <a href="/jobs/" class="cta" role="link">
+                We are hiring <span class="icon-right-open-mini"></span>
+            </a>
+
+        </header>
+
+        
+
+
+
+
+
+<article itemtype="http://schema.org/BlogPosting" itemscope class="main hentry entry" role="main">
+
+    <!-- Article header -->
+    <header>
+        <figure>
+            <img src="/lib/img/scientist.svg" alt="Jimmy" class="roundimg">
+        </figure>
+
+        <h1 itemprop="name headline" role="heading">Jimmy</h1>
+    </header>
+
+    <!-- Article content -->
+    <div itemprop="description articleBody" class="entry-content">
+        
+
+<p>
+    Jimmy is a bit of the cultural genome of Truveris. The name
+    and concept was original sourced from a stackoverflow
+    question which was then deleted (but is <a href="https://blog.codinghorror.com/new-programming-jargon/">now preserved on the Coding Horror blog</a>). Since then,
+    Jimmy-proofing has become a way of thinking and a kind of
+    mantra.
+</p>
+
+<p>
+    We also did what any reasonable software team would do:
+    bring Jimmy to life. And thus, Jimmy the clueless markov
+    chain bot was born.
+</p>
+
+<p>
+    And he's got a face, of course:
+</p>
+
+<p>
+    <img title="jimmy, shamelessly stolen from the link above" src="jimmy.png" style="width: 117px" />
+</p>
+
+<p>
+    As the prototypical clueless developer, Jimmy has just
+    graduated from college and is ready to refactor your
+    systems ever so carefully. The havoc that Jimmy can wreak
+    is not to be understated. Awful code is a technical debt
+    that will have to be paid down with a rewrite. Jimmy is
+    inventing new abstractions (think Jackson Pollock style),
+    writing code using only side effects, and passing new and
+    exotic arguments to functions. Jimmy-proofing your system
+    is an attempt to prevent all of these from happening.
+</p>
+
+<h3>You Are Jimmy</h3>
+
+<p>
+    "I am become Jimmy, the destroyer of codes" as it was
+    written in the Baghavad Gita. In some ways and at some
+    times, we were, are, and will be Jimmy. Jimmy exists to
+    remind us of the consequences of our well intended but
+    possibly ill informed programming decisions. Jimmy is the
+    chaos monkey of your codebase. The code I wrote many years
+    ago had many problems. It always does. And years from now,
+    you will be trying to modify that code. Or repurpose it
+    slightly. And if you Jimmy-proofed your code, you will be
+    grateful.
+</p>
+
+<h3>What is Jimmy-proofing?</h3>
+
+<p>
+    The most important aspects of Jimmy-proofing are failing
+    fast, being explicit, and testing.
+</p>
+
+<p>
+    I often see statements of the form:
+</p>
+
+<pre><code class="language-python">message = None
+    if state == constants.STATUS_PENDING:
+        message = "PENNED IN"
+    elif state == constants.STATUS_RUNNING:
+        message = "RUN IN WITH THE LAW"
+
+return message</code></pre>
+
+<p>
+    That missing else drives me nuts. And it points at two
+    things: failing fast and being explicit. What if this
+    function isn't supposed to handle any other states and is
+    simply relying on the caller to verify it is doing the
+    right thing? What if it is supposed to (possibly even
+    documented that way) but doesn't? What if it's just a
+    thinko? All of these questions can addressed with some good
+    ol' fashioned explicit failure (or maybe not failure). If
+    that if block had ended:
+</p>
+
+<pre><code class="language-python">else:
+    raise Exception("Unhandled state {}".format(repr(state)))</code></pre>
+
+<p>
+    You would know that only those two states are allowed.
+    Maybe Jimmy just passed the wrong value. Maybe he added a
+    new state and forgot to address this location. But now we
+    have Jimmy-proofed this function because (hopefully) it
+    will fail in development or testing.
+</p>
+
+<p>
+    On the other hand, maybe this function can be called safely
+    without needing to be one of those two states. You should
+    write:
+</p>
+
+<pre><code class="language-python">else:
+    pass</code></pre>
+
+<p>
+    This will explicitly state that you know this block can
+    handle arbitrary values. It will upset your coverage
+    checker, but add the appropriate pragma and you'll live.
+</p>
+
+<p>
+    What about testing you ask? Testing is essential for two
+    reasons. The first is that the above example fails during
+    testing instead of during a live news demo of your
+    application. The other is that testing encourages the
+    construction of testable abstractions. Testable
+    abstractions tend to be distinct, modular blocks of code.
+    Just what we're looking for and just what we're trying to
+    prevent jimmy from not creating. You should have reasonably
+    good test coverage and run your tears frequently and as a
+    part of your build process. This keeps Jimmy (remember, you
+    are Jimmy. I am Jimmy. We are all Jimmy) out of production
+    and behind our desks.
+</p>
+
+<h3>So tell me about the bot</h3>
+
+<p>
+    The part you've been dying to hear and I've been living to
+    write. Jimmy was a markov chain bot based on Hailo that was
+    trained on our chat server logs. He had a life of his own.
+    A personality. A guru. A sage. A master of wise sayings.
+    Sometimes spewing gibberish. Jimmy would frequently offer
+    advice, troll other bots, learn foul language, and insult
+    his creator. He was also an important outlet. When someone
+    wanted to say something funny, or sarcastic, or air a
+    complaint, they would say it to Jimmy. Jimmy was a kind of
+    collective catharsis and a safe outlet. Because emotion in
+    written speech is often hard to detect, Jimmy served as a
+    proxy &lt;sarcasm&gt; tag. This allowed frustrations to be vented
+    without actually calling out anyone directly and allowing
+    the problem to be made open.
+</p>
+
+<p>
+    Jimmy was decommissioned when we moved to mattermost for a
+    few reasons. But his spirit still lives on. He is still
+    addressed directly and most people still understand what
+    that means.
+</p>
+
+<p>
+    I said earlier that we are all Jimmy. In the programmer
+    sense, we have all written shitty code. In the bot sense,
+    all of our chatter contributed to his personality. We are
+    all Jimmy. Let that keep us humble.
+</p>
+
+<p class="small">
+    P.S. Jimmy is coming back! The details of that, however,
+    will be the subject of another blog post.
+</p>
+
+
+        <div class="large-separator" role="separator"></div>
+    </div>
+
+    <!-- Article footer -->
+    <footer class="post-footer clearfix">
+
+            <div class="post-social">
+                <span class='st_twitter_hcount' displayText='Tweet' st_via="truveris"></span>
+                <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+            </div>
+
+            <div class="byline vcard">
+                <meta content="https://truveris.github.io//articles/jimmy/" itemprop="url">
+
+                <a href="https://github.com/f0rk">
+                    <img src="/lib/img/helmet.svg" alt="Ryan Kelly profil pic" class="profil_pic">
+                </a>
+
+                <span class="fn author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                    <a href="https://github.com/f0rk" class="url"><span itemprop="name">Ryan Kelly</span></a>
+                </span>
+                <br />
+                <time datetime="2016-07-11T10:10:00" itemprop="datePublished" class="date published updated">July 11, 2016</time>
+                <br />
+
+                <span class="org">Truveris</span>
+                <div class="adr">
+                    <span class="locality">New York</span>
+                    <span class="country-name">USA</span>
+                </div>
+            </div>
+
+    </footer>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'truveris'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</article>
+
+<p class="mobile-cta">
+	<a href="/jobs/" class="cta" role="link">
+		We are hiring <span class="icon-right-open-mini"></span>
+	</a>
+</p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/lib/js/min/core-min.js"></script>
+<script src="/lib/js/plugins/lightbox.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.image-link').magnificPopup({
+            type: 'image',
+            mainClass: 'mfp-with-zoom',
+            closeOnContentClick: true,
+
+            zoom: {
+                enabled: true,
+                duration: 300,
+                easing: 'ease-in-out',
+                opener: function(openerElement) {
+                    return openerElement.is('img') ? openerElement : openerElement.find('img');
+                }
+            }
+        });
+    });
+</script>
+
+
+                <footer class="footer clearfix" role="contentinfo">
+
+            <div class="wrap">
+
+                <p class="social">
+                    <a href="https://github.com/truveris/" data-tooltip="Github"><span class="icon-github"></span></a>
+                    <a href="https://twitter.com/truveris" data-tooltip="Twitter"><span class="icon-twitter"></span></a>
+                    <a href="https://www.linkedin.com/company/truveris" data-tooltip="Linkedin"><span class="icon-linkedin"></span></a>
+                </p>
+
+                <p class="copyright">
+                    <span class="company" itemprop="copyrightHolder sourceOrganization">
+						<a href="http://truveris.com" target="_blank"><img src="/lib/img/truveris-logo.png"/></a>
+					</span> ⓒ
+                    <span itemprop="copyrightYear">2015-2016</span>.
+                    <span class="rightsreserved">All Rights Reserved.</span>
+                </p>
+
+            </div>
+        </footer>
+
+        <script src="/lib/js/min/core-min.js"></script>
+
+        <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-31708065-8', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    </body>
+
+</html>
+
+
+
+

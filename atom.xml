@@ -7,8 +7,25 @@
 	<link href="https://truveris.github.io/atom.xml" rel="self" />
 	<link href="https://truveris.github.io/" />
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-	<updated>2016-07-01T22:04:00</updated>
+	<updated>2016-07-11T10:10:00</updated>
 
+	<entry>
+		<title>Jimmy</title>
+		<link href="https://truveris.github.io/articles/jimmy/" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2016-07-11T10:10:00</updated>
+		<summary>Jimmy, Jimmy-proofing</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				Jimmy is a bit of the cultural genome of Truveris.
+
+			</div>
+		</content>
+		<author>
+			<name>Ryan Kelly</name>
+			<email>rkelly@truveris.com</email>
+		</author>
+	</entry>
 	<entry>
 		<title>Logging</title>
 		<link href="https://truveris.github.io/articles/logging/" />
