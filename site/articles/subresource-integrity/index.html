@@ -1,0 +1,97 @@
+<%inherit file="/articles/base.mako" />
+
+<p>
+    Subresource Integrity (SRI for short) is a technique that
+    allows you to ensure that your assets are being served
+    unaltered. For example:
+</p>
+
+<pre><code class="language-html">&lt;script src="https://code.jquery.com/jquery-3.1.0.slim.min.js"&gt;&lt;/script&gt;</code></pre>
+
+<p>
+    This is something you have probably seen fairly commonly.
+    CDN, or content delivery network, served assets improve
+    page load times by distributing the content from locations
+    physically closer to the end user. They also allow you to
+    offload the bandwidth and resposibility for actually
+    serving your assets.
+</p>
+
+<p>
+    But what happens when that third party is compromised? If
+    all your site does is host cat gifs, it's probably not the
+    end of the world. When you're dealing with sensitive
+    information or accepting payments, however, a compromise
+    could allow an attacker to steal valuable user information.
+</p>
+
+<p>
+    SRI allows us to add a cryptographically secure hash to our
+    tags so that we can indicate what the actual signature of
+    our sources should be. That way, if an attacker compromises
+    a third party displaying assets on your page, they will not
+    be able to serve you malicious code (or other assets, as
+    we'll see below):
+</p>
+
+<pre><code class="language-html">&lt;script src="https://code.jquery.com/jquery-3.1.0.slim.min.js"
+    integrity="sha384-uZ2OkdfFeYRaX81T8ZKlaMt5UJ7DkMwO8z95CYTpAtu9t6W7FaHvsa3xvalfNrnn"&gt;&lt;/script&gt;</code></pre>
+
+<h3>How Do I Generate That?</h3>
+
+<p>
+    There are a few ways to generate the hash itself. The
+    "hash" is actually the base64-encoded representation of the
+    binary digest of the resource. You could put together a
+    simple shell pipeline:
+</p>
+
+<pre><code class="language-shell">cat jquery-3.1.0.slim.min.js | openssl dgst -sha384 -binary | openssl enc -base64 -A</code></pre>
+
+<p>
+    But typing this over and over gets old quick. There's also
+    <a href="https://srihash.org">https://srihash.org</a>,
+    which will allow you to provide the URL of the resource and
+    generate the hash for you.
+</p>
+
+<p>
+
+    There's also my favorite method (shameless plug incoming):
+    <a href="https://github.com/f0rk/srihash">https://github.com/f0rk/srihash</a>.
+    srihash provides a simple command line tool to generate
+    subresource integrity hashes from local files or remote
+    urls:
+</p>
+
+<pre><code class="language-shell">~$ srihash https://code.jquery.com/jquery-3.1.0.slim.min.js
+sha384-uZ2OkdfFeYRaX81T8ZKlaMt5UJ7DkMwO8z95CYTpAtu9t6W7FaHvsa3xvalfNrnn</code></pre>
+
+<h3>What Supports SRI?</h3>
+
+<p>
+    Two elements support SRI: <code>script</code> and
+    <code>link</code>. Simply include the hash of the resource
+    in the integrity attribute. If the script served varies
+    (for example, different users see different scripts) you
+    specify multiple whitespace separated hashes. If any hash
+    matches, the resource will load.
+</p>
+
+<p>
+    SRI is an experimental feature. At the moment, it is only
+    supported by Chrome, Firefox, and Opera:
+    <a href="http://caniuse.com/#feat=subresource-integrity">http://caniuse.com/#feat=subresource-integrity</a>.
+</p>
+
+<h3>Conclusion</h3>
+
+<p>
+    SRI is one of many techniques to prevent the loading and
+    execution of unexpected code. Other techniques, like
+    content security policies, CORS and CORS attributes, and
+    the meta referrer tag, should also be utilized as part of a
+    scheme to make sure your data is protected.
+</p>
+
+## vim: ft=mako
