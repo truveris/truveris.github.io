@@ -1,6 +1,6 @@
 <%inherit file="/base.mako"/>
 
-<%def name="title()">${article.title} - truveris.github.com</%def>
+<%def name="title()">${article.title} - truveris.github.io</%def>
 <%def name="description()">${article.description}</%def>
 <%def name="illustration()">${article.illustration}</%def>
 
