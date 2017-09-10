@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Request Signature Authentication for IVRs Built with Python - truveris.github.io</title>
+        <meta name="description" content="Demo of Twilio auth with Pyramid">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+        <!-- Stylesheets -->
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Lora:400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/lib/css/style.css">
+
+        <!-- RSS -->
+        <link rel="alternate" type="application/atom+xml" href="/atom.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
+
+        <!-- JS -->
+        <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">stLight.options({publisher: "ur-bd6ecc7d-a28e-7a33-9fa5-a9f85b7af5fe", doNotHash: false, doNotCopy: true, hashAddressBar: false});</script>
+
+        <!-- Social -->
+        <link href="https://plus.google.com/+Truverisprescriptions" rel="publisher">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@truveris">
+        <meta name="twitter:title" content="Request Signature Authentication for IVRs Built with Python - truveris.github.io">
+        <meta name="twitter:description" content="Demo of Twilio auth with Pyramid">
+        <meta name="twitter:creator" content="@truveris">
+        <meta name="twitter:domain" content="truveris.github.io">
+        <meta name="twitter:image:src" content="/lib/img/server.svg">
+
+        <meta property="og:title" content="Request Signature Authentication for IVRs Built with Python - truveris.github.io">
+        <meta property="og:description" content="Demo of Twilio auth with Pyramid">
+        <meta property="og:url" content="https://truveris.github.io/">
+        <meta property="og:site_name" content="truveris.github.io">
+        <meta property="og:type" content="blog">
+        <meta property="og:image" content="/lib/img/server.svg">
+
+        <!-- SEO -->
+        <link rel="canonical" href="https://www.twilio.com/blog/2017/09/request-signature-authentication-ivr-python-pyramid.html"/>
+
+        <!-- Force https -->
+        <script type="text/javascript">
+            var host = "truveris.github.io";
+            if ((host == window.location.host) && (window.location.protocol != "https:"))
+                window.location.protocol = "https";
+        </script>
+    </head>
+
+    <body itemscope itemtype="http://schema.org/WebPage">
+                <header class="header clearfix headroom headroom--top" id="header" role="banner">
+
+            <a href="/">
+                <span class="logo-dark-gray">truveris</span><span class="logo-light-gray">.github.io</span>
+            </a>
+
+            <a href="/jobs/" class="cta" role="link">
+                We are hiring <span class="icon-right-open-mini"></span>
+            </a>
+
+        </header>
+
+        
+
+
+
+
+
+
+<article itemtype="http://schema.org/BlogPosting" itemscope class="main hentry entry" role="main">
+
+    <!-- Article header -->
+    <header>
+        <figure>
+            <img src="/lib/img/server.svg" alt="Request Signature Authentication for IVRs Built with Python" class="roundimg">
+        </figure>
+
+        <h1 itemprop="name headline" role="heading">Request Signature Authentication for IVRs Built with Python</h1>
+    </header>
+
+    <!-- Article content -->
+    <div itemprop="description articleBody" class="entry-content">
+        
+
+<a href="fry.jpeg" class="image-link">
+    <img src="fry.jpeg" alt="fry meme">
+</a>
+
+<p>
+    For many APIs it is desirable to authenticate requests made to an endpoint.
+    For an <a href="https://www.twilio.com/docs/tutorials/ivr-phone-tree-python-flask">
+    interactive voice response (IVR) system</a> API which returns
+    <a href="https://www.twilio.com/docs/api/twiml">TwiML</a>, the only entity
+    that should likely be allowed access in production is Twilio. This post will
+    cover implementation of request signature validation in a Python IVR web
+    application that uses the <a href="https://trypyramid.com/">Pyramid web
+    framework</a>.
+</p>
+
+<h2 role="heading">Allowing Twilio Access To localhost</h2>
+
+<p>
+    Of the <a href="https://www.youtube.com/watch?v=vGphzPLemZE">
+    many ways to create a public URL</a> to serve TwiML to Twilio,
+    <a href="https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html">
+    ngrok</a> is one of the simplest. ngrok will be used for this tutorial and
+    is available <a href="https://ngrok.com/download">here</a>. Once ngrok is
+    downloaded and unzipped, the following command should be run from the
+    directory where it is located:
+</p>
+
+<pre><code class="language-bash">./ngrok http 0.0.0.0:8080</code></pre>
+
+<p>
+    When the above command is run in the terminal this output should appear:
+    <a href="ngrok.png" class="image-link">
+        <img src="ngrok.png" alt="ngrok console">
+    </a>
+    For this demo the HTTPS link will be used. Copy it, and we'll paste it in
+    the next section.
+</p>
+
+<h2 role="heading">Setting Up The Twilio Account</h2>
+
+<p>
+    To follow along with this demo a Twilio account is required, as the auth
+    token associated with the account is an integral part of request validation.
+    A Twilio account may be created <a href="http://twilio.com/try-twilio">here
+    </a>.
+    <br>
+    <br>
+    Once logged into a Twilio account, navigate to the
+    <a href="https://www.twilio.com/console/phone-numbers/">phone numbers
+    section</a> and select the phone number that will be used for this demo.
+    Then set the incoming webhook on its configuration page like so and ensure
+    the trailing slash is included:
+</p>
+
+<p>
+    The "Common Stumbling Blocks" section below explains the trailing slash
+    inclusion.
+    <br>
+    <br>
+    Proceed to the <a href="https://www.twilio.com/console">console dashboard</a>
+    to obtain the account's auth token, which is circled below.
+
+    <a href="twilio-console-dashboard.png" class="image-link">
+        <img src="twilio-console-dashboard.png" alt="twilio console dashboard">
+    </a>
+</p>
+
+<h2 role="heading">Setting Up And Serving The Demo App</h2>
+
+<p>
+    Now it's time to setup and serve the demo app with the following commands:
+</p>
+
+<pre><code class="language-bash">cd /tmp
+curl -LOk https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/archive/master.zip
+unzip master.zip
+mv twilio_demo_pyramid_auth* twilio_demo_pyramid_auth
+cd twilio_demo_pyramid_auth
+pip install virtualenv
+virtualenv --clear venv
+. ./venv/bin/activate
+pip install -e .
+export TWILIO_AUTH_TOKEN=XXXX
+./tools/serve -c examples/config.ini</code></pre>
+
+<p>
+    Note that the use of a <code>TWILIO_AUTH_TOKEN</code>
+    environment variable is to prevent inclusion of this sensitive information
+    in a config file or source code, where it may be accidentally version
+    controlled. In production systems, a <a href="https://docs.saltstack.com/en/latest/topics/tutorials/pillar.html">
+    more robust solution</a> for safely including the auth token in a Twilio app
+    may be desirable.
+</p>
+
+<p>
+    The app should now be available to Twilio and calling the phone number
+    configured in the previous section should result in the following output
+    in the terminal serving the Pyramid app:
+</p>
+
+<pre><code class="language-raw">1970-01-01 00:00:00,001 INFO  [twilio_demo_pyramid_auth.security] Authenticating GET /
+1970-01-01 00:00:00,002 INFO  [twilio_demo_pyramid_auth.security] Authentication SUCCESS
+1970-01-01 00:00:00,003 INFO  [twilio_demo_pyramid_auth.security] Authenticating POST /
+1970-01-01 00:00:00,004 INFO  [twilio_demo_pyramid_auth.security] Authentication SUCCESS
+1970-01-01 00:00:00,005 INFO  [twilio_demo_pyramid_auth.security] Authenticating GET /accessible
+1970-01-01 00:00:00,006 INFO  [twilio_demo_pyramid_auth.security] Authentication SUCCESS</code></pre>
+
+<p>
+    For additional information on building applications in Python with the Twilio
+    Voice API, see the <a href="https://www.twilio.com/docs/quickstart/python/twiml">
+    quickstart documentation</a>.
+</p>
+
+<h2 role="heading">How To Spot A Fake Request</h2>
+
+<p>
+    <a href="legit.jpeg" class="image-link">
+        <img src="legit.jpeg" alt="legit meme">
+    </a>
+    <br>
+    <br>
+    When the webhook configured to handle incoming phone calls receives a request
+    from Twilio, the request header will contain an X-Twilio-Signature. This value,
+    along with the account's auth token is all that is necessary to determine if
+    a request actually originated from Twilio.
+    <br>
+    <br>
+    Note: <em>The process by which Twilio generates this header value is delineated
+    <a href="https://www.twilio.com/docs/api/security#validating-requests">here</a>.</em>
+    <br>
+    <br>
+    In determining if a request to a certain endpoint should be allowed, Pyramid
+    takes two concepts into account: authentication and authorization.
+    Authentication may be thought of as checking if the requester is who they
+    claim to be, and authorization may be thought of as checking if the requester
+    has permission to do what they are attempting.
+    <br>
+    <br>
+    Verifying request signatures is an authentication concern and should be
+    handled via the Pyramid app's authentication policy. Pyramid includes no
+    <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/api/authentication.html">
+    authentication policies</a> which cleanly allow for only validation of
+    Twilio request signatures. They all center around a userid and facilitate
+    the creation and usage of sessions. Pyramid's <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/api/authentication.html#pyramid.authentication.AuthTktCookieHelper">
+    AuthTktCookieHelper</a> comes close to a good fit, but it provides a lot of
+    extra functionality that is not necessary for simple, stateless request
+    validation.
+    <br>
+    <br>
+    Thankfully, Pyramid makes it easy to define and include a custom authentication
+    policy. A canonical authentication policy should implement the
+    <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/api/interfaces.html#pyramid.interfaces.IAuthenticationPolicy">
+    IAuthenticationPolicy</a> interface and define all of its methods; however,
+    doing so will result in a far more fully featured policy than is necessary
+    for this demo.
+    <br>
+    <br>
+    Note: <em>Twilio also supports HTTP basic authentication and Pyramid includes
+    a </em><em><a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/api/authentication.html#pyramid.authentication.BasicAuthAuthenticationPolicy">
+    BasicAuthAuthenticationPolicy</a></em><em> out-of-the-box. This tutorial
+    focuses only on digest authentication which may be preferable as it does
+    not require the inclusion of credentials in every request URL where they
+    may be susceptible to interception.</em>
+    <br>
+    <br>
+    The custom <a href="https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/blob/master/twilio_demo_pyramid_auth/security.py#L21">
+    TwilioSignatureAuthenticationPolicy</a> defined for this demo contains an
+    <code>effective_principals</code> <a href="https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/blob/master/twilio_demo_pyramid_auth/security.py#L42">
+    method definition</a>. This is the only method Pyramid requires for an
+    authentication policy to be compatible with the
+    <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/api/authorization.html#pyramid.authorization.ACLAuthorizationPolicy">
+    ACLAuthorizationPolicy</a>.
+    <br>
+    <br>
+    A Pyramid app will call the authentication policy's <code>effective_principals</code>
+    method for each HTTP request to one of its endpoints, making this a
+    convenient location to include the Twilio <code>RequestValidator</code>.
+</p>
+
+<pre><code class="language-python">class TwilioSignatureAuthenticationPolicy(object):
+
+    def _is_authentic_twilio_request(self, request):
+        logger.info("Authenticating {} {}".format(request.method, request.path))
+
+        twilio_auth_key = os.environ["TWILIO_AUTH_TOKEN"]
+        request_validator = RequestValidator(twilio_auth_key)
+
+        twilio_signature = request.headers.get("X-Twilio-Signature", "")
+        is_authentic = request_validator.validate(
+            request.url,
+            request.POST,
+            twilio_signature,
+        )
+        if is_authentic:
+            logger.info("Authentication SUCCESS")
+            return is_authentic
+
+        logger.info("Authentication FAILURE")
+        return is_authentic
+
+    def effective_principals(self, request):
+        principals = [pyramid_security.Everyone]
+
+        if self._is_authentic_twilio_request(request):
+            principals.append(Twilio)
+
+        return principals</code></pre>
+
+<p>
+    The <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/glossary.html#term-acl">
+    access control list</a> of the
+    <a href="https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/blob/master/twilio_demo_pyramid_auth/context/root.py#L13">
+    root context</a> defined for this demo app's views only allows the <code>"view"</code>
+    permission to the Twilio security group:
+</p>
+
+<pre><code class="language-python">class RootContext(object):
+
+    __name__ = ""
+    __parent__ = None
+
+    def __init__(self, request):
+        pass
+
+    @property
+    def __acl__(self):
+        return (
+            (Allow, Twilio, "view"),
+        )</code></pre>
+
+<p>
+    If the signature generated by the <code>RequestValidator</code> does not
+    match the <code>X-Twilio-Signature</code> attached to the request, then
+    the authentication policy will not include the Twilio
+    <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/glossary.html#term-principal">
+    principal</a> in its list of effective principals and the requester will be
+    denied access to <a href="https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/blob/master/twilio_demo_pyramid_auth/views/root.py#L26">
+    any endpoint requiring "view" permission</a>.
+    <br>
+    <br>
+    <a href="gandalf.gif" class="image-link">
+        <img src="gandalf.gif" alt="gandalf meme">
+    </a>
+</p>
+
+<h2 role="heading">Common Stumbling Blocks</h2>
+
+<p>
+    The URL passed to the RequestValidator.validate method must be identical to
+    the one used by Twilio. Concerns such as trailing slashes and request URI
+    schemes – either <a href="https://www.w3.org/wiki/UriSchemes/http">http</a>
+    or <a href="https://www.w3.org/wiki/UriSchemes/https">https</a> in the case
+    of Twilio – must be taken into account.
+    <br>
+    <br>
+    By default, the Pyramid <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/api/request.html#pyramid.request.Request.url">
+    request.url</a> method will generate a URL ending in a trailing slash for
+    the root URL whereas ngrok displays the root URL without one:
+
+    <a href="ngrok.png" class="image-link">
+        <img src="ngrok.png" alt="ngrok console">
+    </a>
+
+    Copying and pasting this ngrok URL, exactly as it appears will result in
+    request validation failure, so ensure a trailing slash is appended when
+    configuring the call handler webhook:
+
+    <a href="twilio-phone-numbers.png" class="image-link">
+        <img src="twilio-phone-numbers.png" alt="twilio phone numbers">
+    </a>
+
+    <br>
+    <br>
+    If the Pyramid application that has been configured to serve as the call
+    handler sits behind a load balancer, or any service which terminates TLS,
+    it is critical that <a href="https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/blob/master/examples/config.ini#L12-L26">these lines</a> appear in the
+    <a href="https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/blob/master/examples/config.ini">
+    app's configuration file</a>. Failure to include them will result in calls
+    to Pyramid's various URL generation methods returning URLs with the
+    incorrect scheme (i.e. http://ivr.example.com instead of
+    https://ivr.example.com).
+</p>
+
+<pre><code class="language-python">[app:main]
+use = egg:twilio_demo_pyramid_auth
+filter-with = prefix
+
+pyramid.includes = pyramid_exclog
+
+support_number = 000-000-0000
+
+# The below filter config will ensure that the `X-Forwarded-Proto` header
+# is respected when pyramid generates URLs. This is critical if your application
+# sits behind an ELB which terminates TLS.
+#
+# docs.pylonsproject.org/projects/waitress/en/latest/#using-paste-s-prefixmiddleware-to-set-wsgi-url-scheme
+#
+[filter:prefix]
+use = egg:PasteDeploy#prefix</code></pre>
+
+<p>
+    Another point to remember for GET requests is that Twilio passes various
+    query string parameters when hitting the webhook; however, for POST requests
+    this information resides in the request body. This may be a stumbling block
+    for <a href="https://www.fullstackpython.com/pyramid.html">Pyramid</a>
+    users,as the widely used <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/api/request.html#pyramid.request.Request.params">
+    request.params</a> property merges the query string params with the request
+    body for convenience. Ensure that for validation purposes, the
+    <a href="https://docs.pylonsproject.org/projects/pyramid/en/latest/api/request.html#pyramid.request.Request.POST">
+    request.POST</a> property is used instead. This property will return an
+    empty <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">
+    dictionary-like object</a>on GET requests, avoiding interference with
+    validation. Below is the behavior of <code>request.POST</code> during a
+    HTTP GET:
+</p>
+
+<pre><code class="language-python">>>>> request.POST
+&lt;NoVars: Not a form request>
+>>>> type(request.POST)
+&lt;class 'webob.multidict.NoVars'>
+>>>> dict(request.POST)
+{}</code></pre>
+
+<h2 role="heading">Error Handling</h2>
+
+<p>
+    In the event that a problem arises with the API attempting to serve TwiML
+    either due to request validation failure or some other reason, Twilio will
+    read a stock error message to the caller and end the call. By default the
+    caller hears:
+    <br>
+    <br>
+    "We're sorry, an application error has occurred. Goodbye."
+</p>
+
+<p>
+    It may be desirable to handle errors in a custom manner and, for example,
+    forward callers to a call center in the event of an exception with the API.
+    Pyramid provides a set of view decorators to make catching and handling
+    errors fairly simple. In <a href="https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/blob/master/twilio_demo_pyramid_auth/views/exception.py#L23">
+    this example</a>, custom TwiML will be returned and the caller will be
+    redirected to a call center for assistance:
+</p>
+
+<pre><code class="language-python">@view_defaults(
+    renderer="xml",
+)
+class ExceptionViews(BaseViews):
+
+    def _handle_exception(self):
+        response = VoiceResponse()
+
+        self.request.response.status_int = 200
+
+        message = (
+            "My apologies. We seem to be experiencing technical difficulties. "
+            "You will now be redirected to our call center for assistance."
+        )
+        response.say(
+            message,
+            voice="woman",
+            language="en",
+        )
+        response.dial(self.request.registry.settings["support_number"])
+
+        return response
+
+    @notfound_view_config()
+    def notfound(self):
+        return self._handle_exception()
+
+    @forbidden_view_config()
+    def forbidden(self):
+        return self._handle_exception()
+
+    @exception_view_config(httpexceptions.HTTPServerError)
+    def exception(self):
+        return self._handle_exception()</code></pre>
+
+<p>
+    The above code defines views to handle 403, 404, and 500 errors. In the event
+    one of these errors occurs, the custom message defined above will be read to
+    the user. It is important that the status code is set to 200, as a failure to
+    do so will result in Twilio ignoring the TwiML we send and defaulting to the
+    stock error message.
+</p>
+
+<h2 role="heading">Closing Notes</h2>
+
+<p>
+    For additional information on building applications in Python with the
+    Twilio Voice API, see the
+    <a href="https://www.twilio.com/docs/quickstart/python/twiml">
+    quickstart documentation</a>.
+    <br>
+    <br>
+    If any issues are encountered while attempting this tutorial, please note
+    them in the <a href="https://github.com/patrickyevsukov/twilio_demo_pyramid_auth/issues">
+    GitHub repo issue tracker</a> so they can be resolved in a timely manner.
+    <br>
+    <br>
+    My contact information is available on <a href="https://patrick.yevsukov.com/">
+    https://patrick.yevsukov.com/</a> and my GitHub profile is
+    <a href="https://github.com/patrickyevsukov/">
+    https://github.com/patrickyevsukov/</a>.
+</p>
+
+        <div class="large-separator" role="separator"></div>
+    </div>
+
+    <!-- Article footer -->
+    <footer class="post-footer clearfix">
+
+            <div class="post-social">
+                <span class='st_twitter_hcount' displayText='Tweet' st_via="truveris"></span>
+                <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
+            </div>
+
+            <div class="byline vcard">
+                <meta content="https://truveris.github.io//articles/twilio-demo-pyramid-auth/" itemprop="url">
+
+                <a href="https://github.com/patrickyevsukov">
+                    <img src="/lib/img/helmet.svg" alt="Patrick Yevsukov profil pic" class="profil_pic">
+                </a>
+
+                <span class="fn author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                    <a href="https://github.com/patrickyevsukov" class="url"><span itemprop="name">Patrick Yevsukov</span></a>
+                </span>
+                <br />
+                <time datetime="2017-09-07T13:45:00" itemprop="datePublished" class="date published updated">September 07, 2017</time>
+                <br />
+
+                <span class="org">Truveris</span>
+                <div class="adr">
+                    <span class="locality">New York</span>
+                    <span class="country-name">USA</span>
+                </div>
+            </div>
+
+    </footer>
+
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'truveris'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</article>
+
+<p class="mobile-cta">
+	<a href="/jobs/" class="cta" role="link">
+		We are hiring <span class="icon-right-open-mini"></span>
+	</a>
+</p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/lib/js/min/core-min.js"></script>
+<script src="/lib/js/plugins/lightbox.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.image-link').magnificPopup({
+            type: 'image',
+            mainClass: 'mfp-with-zoom',
+            closeOnContentClick: true,
+
+            zoom: {
+                enabled: true,
+                duration: 300,
+                easing: 'ease-in-out',
+                opener: function(openerElement) {
+                    return openerElement.is('img') ? openerElement : openerElement.find('img');
+                }
+            }
+        });
+    });
+</script>
+
+
+                <footer class="footer clearfix" role="contentinfo">
+
+            <div class="wrap">
+
+                <p class="social">
+                    <a href="https://github.com/truveris/" data-tooltip="Github"><span class="icon-github"></span></a>
+                    <a href="https://twitter.com/truveris" data-tooltip="Twitter"><span class="icon-twitter"></span></a>
+                    <a href="https://www.linkedin.com/company/truveris" data-tooltip="Linkedin"><span class="icon-linkedin"></span></a>
+                </p>
+
+                <p class="copyright">
+                    <span class="company" itemprop="copyrightHolder sourceOrganization">
+						<a href="http://truveris.com" target="_blank"><img src="/lib/img/truveris-logo.png"/></a>
+					</span> ⓒ
+                    <span itemprop="copyrightYear">2015-2017</span>.
+                    <span class="rightsreserved">All Rights Reserved.</span>
+                </p>
+
+            </div>
+        </footer>
+
+        <script src="/lib/js/min/core-min.js"></script>
+
+        <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-31708065-8', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    </body>
+
+</html>
+
+
+
+
+

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>truveris.github.com</title>
+        <title>truveris.github.io</title>
         <meta name="description" content="Truveris engineering blog">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,18 +27,21 @@
         <link href="https://plus.google.com/+Truverisprescriptions" rel="publisher">
         <meta name="twitter:card" content="summary">
         <meta name="twitter:site" content="@truveris">
-        <meta name="twitter:title" content="truveris.github.com">
+        <meta name="twitter:title" content="truveris.github.io">
         <meta name="twitter:description" content="Truveris engineering blog">
         <meta name="twitter:creator" content="@truveris">
         <meta name="twitter:domain" content="truveris.github.io">
         <meta name="twitter:image:src" content="/lib/img/logo.png">
 
-        <meta property="og:title" content="truveris.github.com">
+        <meta property="og:title" content="truveris.github.io">
         <meta property="og:description" content="Truveris engineering blog">
         <meta property="og:url" content="https://truveris.github.io/">
         <meta property="og:site_name" content="truveris.github.io">
         <meta property="og:type" content="blog">
         <meta property="og:image" content="/lib/img/logo.png">
+
+        <!-- SEO -->
+        
 
         <!-- Force https -->
         <script type="text/javascript">
@@ -69,6 +72,43 @@
 <section class="main" itemscope itemtype="http://schema.org/Blog" role="main">
     <meta content='Truveris Labs Blog' itemprop='name'>
 
+    <article itemprop="blogPost" itemscope
+            itemtype="http://schema.org/BlogPosting" role="article"
+            class="hentry entry">
+
+        <header>
+            <figure>
+                <a href="/articles/twilio-demo-pyramid-auth/">
+                    <img src="/lib/img/server.svg"
+                        alt="Description" class="roundimg">
+                </a>
+            </figure>
+
+            <h2 class="h1" itemprop="name headline">
+                <a href="/articles/twilio-demo-pyramid-auth/" class="entry-title">Request Signature Authentication for IVRs Built with Python</a>
+            </h2>
+
+            <time datetime="2017-09-07T13:45:00" itemprop="datePublished"
+                class="date published updated">September 07, 2017</time>
+            <div class="vcard">
+                <span class="fn author" itemprop="author" itemscope=""
+                    itemtype="http://schema.org/Person">
+                    <a href="https://github.com/patrickyevsukov" class="url"
+                        ><span itemprop="name">Patrick Yevsukov</span></a>
+                </span>
+            </div>
+
+        </header>
+
+        <p itemprop="description articleBody" class="entry-content">
+            For many APIs it is desirable to authenticate requests made to an endpoint. For an interactive voice response (IVR) system API which returns TwiML, the only entity that should likely be allowed access in production is Twilio. This post will cover implementation of request signature validation in a Python IVR web application that uses the Pyramid web framework.
+
+
+            <a href="/articles/twilio-demo-pyramid-auth/" itemprop="url" rel="bookmark">
+                Read more <span class="icon-right-open-mini"></span>
+            </a>
+        </p>
+    </article>
     <article itemprop="blogPost" itemscope
             itemtype="http://schema.org/BlogPosting" role="article"
             class="hentry entry">
@@ -422,6 +462,7 @@ approach to user emulation testing.
     </body>
 
 </html>
+
 
 
 
