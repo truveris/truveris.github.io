@@ -8,10 +8,12 @@ class NotFound(Exception):
         super(NotFound, self).__init__()
 
 
-def read(path):
+def read(path, should_fail_if_missing=True):
     """Return the content of a file, striped of spaces and new-lines."""
     try:
         with open(path) as fp:
             return fp.read().strip()
     except:
+        if not should_fail_if_missing:
+            return None
         raise NotFound(path)

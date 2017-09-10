@@ -3,6 +3,7 @@
 <%def name="title()">${article.title} - truveris.github.io</%def>
 <%def name="description()">${article.description}</%def>
 <%def name="illustration()">${article.illustration}</%def>
+<%def name="canonical()">${article.canonical}</%def>
 
 <article itemtype="http://schema.org/BlogPosting" itemscope class="main hentry entry" role="main">
 

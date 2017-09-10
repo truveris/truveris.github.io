@@ -16,6 +16,7 @@ class BlogApp(PyGreen):
             r".*/illustration$",
             r".*/short.html$",
             r".*/timestamp$",
+            r".*/canonical$",
             r".*\.scss$",
             r".*\.codekit$",
             r".*\.rb$",

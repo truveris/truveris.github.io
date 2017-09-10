@@ -64,6 +64,7 @@ Create a new folder in the `site/articles/` folder and create the following file
  * **short.html**: short introduction HTML used in the index page. Do *not* use
        links in this file, they are distracting the user from the "Read more".
  * **description**: a couple of sentences describing the article (metadata).
+ * **canonical**: an optional canonical reference meta tag (metadata).
 
 Keep all the images related to this article in the same folder (minus the
 illustration which should be generic enough to be re-usable).

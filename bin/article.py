@@ -19,12 +19,13 @@ class Article(object):
     """
 
     def __init__(self, name, title, author, description, illustration,
-                 timestamp):
+                 timestamp, canonical):
         self.name = name
         self.title = title
         self.author = author
         self.description = re.sub(r"[\n\t ]+", " ", description)
         self.illustration = illustration
+        self.canonical = canonical
 
         self.url = os.path.join("/", "articles", self.name) + "/"
 
@@ -46,6 +47,10 @@ def get_article(path):
         description=meta.read(os.path.join(path, "description")),
         illustration=meta.read(os.path.join(path, "illustration")),
         timestamp=meta.read(os.path.join(path, "timestamp")),
+        canonical=meta.read(
+            os.path.join(path, "canonical"),
+            should_fail_if_missing=False,
+        ),
     )
 
     article.author = get_author(article.author)

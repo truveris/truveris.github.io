@@ -40,6 +40,9 @@
         <meta property="og:type" content="blog">
         <meta property="og:image" content="/lib/img/${self.illustration()}">
 
+        <!-- SEO -->
+        ${self.canonical()}
+
         <!-- Force https -->
         <script type="text/javascript">
             var host = "truveris.github.io";
@@ -59,5 +62,6 @@
 
 <%def name="description()">Truveris engineering blog</%def>
 <%def name="illustration()">logo.png</%def>
+<%def name="canonical()"></%def>
 
 ## vim: ft=mako
