@@ -15,5 +15,5 @@ def read(path, should_fail_if_missing=True):
             return fp.read().strip()
     except:
         if not should_fail_if_missing:
-            return None
+            return ""
         raise NotFound(path)
