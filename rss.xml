@@ -15,6 +15,15 @@
 
         <item>
             <media:thumbnail url="https://truveris.github.io/lib/img/server.svg" />
+            <title>Verify Travis CI Webhook Notifications with Node.js</title>
+            <pubDate>Mon, 02 Oct 2017 00:00:00 -0000</pubDate>
+            <dc:creator>Chris Hranj</dc:creator>
+            <description><![CDATA[Verify Travis CI Webhook Notifications with Node.js]]></description>
+            <guid isPermaLink="true">https://truveris.github.io/articles/travis-webhook-verification/</guid>
+            <link>https://truveris.github.io/articles/travis-webhook-verification/</link>
+        </item>
+        <item>
+            <media:thumbnail url="https://truveris.github.io/lib/img/server.svg" />
             <title>Request Signature Authentication for IVRs Built with Python</title>
             <pubDate>Thu, 07 Sep 2017 17:45:00 -0000</pubDate>
             <dc:creator>Patrick Yevsukov</dc:creator>

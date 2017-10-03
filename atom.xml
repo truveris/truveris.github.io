@@ -7,8 +7,25 @@
 	<link href="https://truveris.github.io/atom.xml" rel="self" />
 	<link href="https://truveris.github.io/" />
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-	<updated>2017-09-07T13:45:00</updated>
+	<updated>2017-10-01T20:00:00</updated>
 
+	<entry>
+		<title>Verify Travis CI Webhook Notifications with Node.js</title>
+		<link href="https://truveris.github.io/articles/travis-webhook-verification/" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2017-10-01T20:00:00</updated>
+		<summary>Verify Travis CI Webhook Notifications with Node.js</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				This post demonstrates how to verify incoming webhook requests from Travis CI using two popular Node.js frameworks, hapi and Express.
+
+			</div>
+		</content>
+		<author>
+			<name>Chris Hranj</name>
+			<email>christopher.hranj@gmail.com</email>
+		</author>
+	</entry>
 	<entry>
 		<title>Request Signature Authentication for IVRs Built with Python</title>
 		<link href="https://truveris.github.io/articles/twilio-demo-pyramid-auth/" />
