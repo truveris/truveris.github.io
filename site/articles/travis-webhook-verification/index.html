@@ -1,0 +1,137 @@
+<%inherit file="/articles/base.mako" />
+
+<p>
+    Travis CI allows users to configure <a href="https://docs.travis-ci.com/user/notifications/#Configuring-webhook-notifications">webhook notifications</a>
+    which can be sent during certain build events.
+    I recently played with this feature in order to send SMS messages via <a href="https://www.twilio.com/">Twilio</a> whenever a project failed to build/test.
+    This post will discuss how to validate these webhook notifications to ensure that they are actually being sent by Travis CI.
+</p>
+
+<h2 role="heading">The Problem</h2>
+<p>
+
+    The app I built was able to handle incoming requests from Travis CI,
+    but it had no way of checking where these requests were coming from. This meant that anyone could send a request to the app pretending to be Travis CI.
+    <br>
+    <br>
+    The Travis CI's docs have a section on <a href="https://docs.travis-ci.com/user/notifications/#Verifying-Webhook-requests">verifying webhook requests</a>, 
+    but the instructions (shown below) were a bit unclear for someone without a lot of knowledge in encryption/encoding. 
+    <br>
+    <br>
+    1. Pick up the payload data from the HTTP request’s body.
+    <br>
+    2. Obtain the Signature header value, and base64-decode it.
+    <br>
+    3. Obtain the public key corresponding to the private key that signed the payload. 
+    This is available at the /config endpoint’s config.notifications.webhook.public_key on the relevant API server. (e.g., https://api.travis-ci.org/config)
+    <br>
+    4. Verify the signature using the public key and SHA1 digest.
+    <br>
+    <br>
+    The docs even give a few <a href="https://docs.travis-ci.com/user/notifications/#Examples">examples</a> on how to do this but none of 
+    them pertain to JavaScript. I decided to figure it out for myself, and it ended up being pretty simple.
+</p>
+
+<h2 role="heading">The Solution</h2>
+
+<p>
+  There are many popular Node.js web frameworks and they each handle incoming requests in different ways. 
+  This post will provide solutions with two of the most popular frameworks, <a href="https://expressjs.com/">Express</a> (v4.15.3) 
+  and <a href="https://hapijs.com/">hapi</a> (v16.5.0). The logic can easily be ported to work with any framework.
+  <br>
+  <br>
+  Both solutions will use the <a href="https://github.com/sindresorhus/got">got</a> library to obtain Travis's public encryption key as well as 
+  the built-in <a href="https://nodejs.org/dist/latest-v6.x/docs/api/crypto.html">crypto</a> library for SHA-1 verification. 
+  The Express solution will also require the <a href="https://github.com/expressjs/body-parser">body-parser</a> middleware.
+  <br>
+  <br>
+  Note: The Node.js version being used at the time of this writing is v6.11.1 LTS.
+</p>
+
+<h3>Using Express</h3>
+<p>
+  Boilerplate Express code for creating a server can be found <a href="https://expressjs.com/en/starter/hello-world.html">here</a> or 
+  you can reference <a href="https://github.com/Brodan/travis-webhook-verification-nodejs/blob/master/express.js">this</a> sample app. 
+  The route should look as such:
+  <pre><code class="language-javascript">
+    /* Imports and server config go here... */
+
+    app.post('/travis', function (req, res) {
+      let travisSignature = Buffer.from(req.headers.signature, 'base64');
+      let payload = req.body.payload;
+      let status = false;
+
+      got('https://api.travis-ci.org/config', {
+          timeout: 10000
+      })
+      .then(response => {
+        let travisPublicKey =
+          JSON.parse(response.body).config.notifications.webhook.public_key;
+        let verifier = crypto.createVerify('sha1');
+        verifier.update(payload);
+        status = verifier.verify(travisPublicKey, travisSignature);
+      })
+      .catch(error => {
+        console.log('Something went wrong:\n' + error)
+      })
+      .then(() => {
+        if (status) {
+          // Handle request here now that it has been verified...
+        }
+        res.sendStatus(200);
+      });
+    });
+  </code></pre>
+</p>
+
+<h3>Using hapi</h3>
+<p>
+  Boilerplate hapi code for creating a server can be found <a href="https://hapijs.com/tutorials#creating-a-server">here</a> or 
+  you can reference <a href="https://github.com/Brodan/travis-webhook-verification-nodejs/blob/master/hapi.js">this</a> sample app. 
+  The route should look as such:
+  <pre><code class="language-javascript">
+    /* Imports and server config go here... */
+
+    server.route({
+      method: 'POST',
+      path:'/travis',
+      handler: function (request, reply) {
+        let travisSignature = Buffer.from(request.headers.signature, 'base64');
+        let payload = request.payload.payload;
+        let status = false;
+        
+        got('https://api.travis-ci.org/config', {
+          timeout: 10000
+        })
+        .then(response => {
+          let travisPublicKey = JSON.parse(response.body).config.notifications.webhook.public_key;
+          let verifier = crypto.createVerify('sha1');
+          verifier.update(payload);
+          status = verifier.verify(travisPublicKey, travisSignature);
+        })
+        .catch(error => {
+          console.log('Something went wrong:\n' + error)
+        })
+        .then(() => {
+          if (status) {
+            // Handle request here now that it has been verified...
+          }
+          reply(200);
+        });
+      }
+    });
+  </code></pre>
+
+  Ensure that the correct URL is being passed into the got request, as the .org and .com domains have different public encryption keys! 
+  These URLs are https://api.travis-ci.org/config and https://api.travis-ci.com/config, respectively.
+</p>
+
+<h2 role="heading">Wrapping Up</h2>
+
+<p>
+    The full source code for both the hapi and Express apps above can be found in 
+    <a href="https://github.com/Brodan/travis-webhook-verification-nodejs">this</a> Github repository.
+    <br>
+    <br>
+    Additional thanks to <a href="https://wycd.net/">Wayne Chang</a> for helping me proofread and improve this post.
+</p>
