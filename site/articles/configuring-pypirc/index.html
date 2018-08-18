@@ -1,0 +1,119 @@
+<%inherit file="/articles/base.mako" />
+
+<p>
+    PyPI is the Python Package Index. Its purpose is to help Python developers find and install software developed by the Python community.
+    <br>
+    <br>
+    I recently built my first Python package, <a href="https://github.com/brodan/patter">patter</a>, and released it publicly via PyPI. I ran into a few hiccups along the way, so I am writing this post to help those in a similar position.
+    <br>
+    <br>
+    This post will describe the basics of a .pypirc file and how to configure and secure it.
+</p>
+
+<h2 role="heading">Getting Started</h2>
+<p>
+    Before you proceed, it's a good idea to make sure that the <code>setuptools</code> and <code>wheel</code> libraries are up to date. The following command will update them if needed:
+    <br>
+    <br>
+    <code>$ pip install -U setuptools wheel</code>
+    <br>
+    <br>
+    This post will assume that you have a new Python library that is ready to be published. The source code should be packaged using a command like the one below. Your command may differ slightly depending on the needs of your package.
+    <br>
+    <br>
+    <code>$ python setup.py sdist bdist_wheel</code>
+    <br>
+    <br>
+    To read more about creating a distributable Python package, see <a href="https://packaging.python.org/tutorials/packaging-projects/#generating-distribution-archives">these</a> docs.
+    <br>
+    <br>
+    In the next section, I use the <a href="https://github.com/pypa/twine">twine</a> utility to facilitate the release of my new package. You can read about the benefits of using <code>twine</code> over the built-in packaging tools <a href="https://github.com/pypa/twine#why-should-i-use-this">here</a>. Install <code>twine</code> using the following command:
+    <br>
+    <br>
+    <code>$ pip install twine</code>
+    <br>
+    <br>
+</p>
+
+<h2 role="heading">The .pypirc File</h2>
+
+<p>
+  There are two main benefits to using a <code>.pypirc</code> file:
+  <br>
+  <br>
+  1. It removes the need to enter a username/password when pushing to PyPI.
+  <br>
+  2. It simplifies command line usage when pushing packages to a non-default package repository (i.e. anywhere other than <a href="https://pypi.org/">pypi.org</a>).
+  <br>
+  <br>
+  The official documentation on the <code>.pypirc</code> file can be found <a href="https://docs.python.org/3/distutils/packageindex.html#the-pypirc-file">here</a>.
+  The contents of my <code>.pypirc</code> file can be seen below. This file must be placed in <code>$HOME/.pypirc</code> for pip/twine to use it.
+  <pre><code class="language-raw">
+    [distutils]
+    index-servers=
+        pypi
+        testpypi
+
+    [pypi]
+    username: brodan
+    password: xxxxxxxxxxxxxxxx
+
+    [testpypi]
+    repository: https://test.pypi.org/legacy/
+    username: brodan
+    password: yyyyyyyyyyyyyyyy
+  </code></pre>
+  <br>
+  <br>
+  Keep in mind, <a href="https://pypi.org/">pypi.org</a> and <a href="https://test.pypi.org/">test.pypi.org</a> are not integrated, so you'll need to have a separate account created on each site. 
+  <br>
+  <br>
+  One thing to notice above is that the <code>[pypi]</code> section does not have <code>repository</code> configured, but the <code>testpypi</code> section does.
+  That is because the <code>repository</code> variable defaults to <code>https://upload.pypi.org/legacy/</code>, so it does not need to be included in that section.
+</p>
+
+<h2 role="heading">Uploading Python Packages</h2>
+<p>
+  Once the file above is in place, the <code>--repository</code> flag can now be used with <code>twine</code> to specify which package repository your packages will be uploaded to:
+  <br>
+  <br>
+  - If you wish to upload a package to the TestPyPI repository, the following command should be used:
+  <br>
+  <br>
+      <code>twine upload --repository testpypi dist/*</code>
+  <br>
+  <br>
+  - Similarly, once the package is ready to be released to the public, the following should be used: 
+  <br>
+  <br>
+      <code>twine upload --repository pypi dist/*</code>
+  <br>
+  <br>
+  Notice that you won't be prompted for a password when running either of the above commands. You also no longer need to copy and paste repository URLs into the terminal.
+</p>
+
+<h2 role="heading">Securing The .pypirc File</h2>
+
+<p>
+  Since the <code>.pypirc</code> file is storing sensitive information (i.e. passwords) in plain text, it's import to set the permissions on this file accordingly so that other users on the system can not access this file.
+  <br>
+  <br>
+  To do this, run the following command:
+  <br>
+  <br>
+  <code>chmod 600 ~/.pypirc</code>
+  <br>
+  <br>
+  The command above will ensure that only the file owner (which should be your own user) can read and write to this file. Additional info on file permissions in UNIX can be found <a href="https://www.tutorialspoint.com/unix/unix-file-permission.htm">here</a>.
+  Thank you to <a href="https://unix.stackexchange.com/a/20779">this StackOverflow answer</a> for help on this section.
+</p>
+
+
+<h2 role="heading">Wrapping Up</h2>
+
+<p>
+    With a .pypirc file in place, the process of pushing Python packages to public repositories is much easier.
+    <br>
+    <br>
+    If you have any questions or feedback regarding this post, reach out to me via email: chranj@truveris.com
+</p>
