@@ -7,8 +7,25 @@
 	<link href="https://truveris.github.io/atom.xml" rel="self" />
 	<link href="https://truveris.github.io/" />
 	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-	<updated>2017-10-01T20:00:00</updated>
+	<updated>2018-08-20T12:00:00</updated>
 
+	<entry>
+		<title>Configuring a .pypirc File for Easier Python Packaging</title>
+		<link href="https://truveris.github.io/articles/configuring-pypirc/" />
+		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<updated>2018-08-20T12:00:00</updated>
+		<summary>Configuring a .pypirc File for Easier Python Packaging</summary>
+		<content type="xhtml">
+			<div xmlns="http://www.w3.org/1999/xhtml">
+				.pypirc files can be used to simplify the process of uploading Python packages to the Python Package Index (PyPI). This post covers why and how to configure and secure a .pypirc file.
+
+			</div>
+		</content>
+		<author>
+			<name>Chris Hranj</name>
+			<email>christopher.hranj@gmail.com</email>
+		</author>
+	</entry>
 	<entry>
 		<title>Verify Travis CI Webhook Notifications with Node.js</title>
 		<link href="https://truveris.github.io/articles/travis-webhook-verification/" />

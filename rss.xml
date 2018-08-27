@@ -14,6 +14,15 @@
         <atom:link href="https://truveris.github.io/rss.xml" rel="self" type="application/rss+xml" />
 
         <item>
+            <media:thumbnail url="https://truveris.github.io/lib/img/stats.svg" />
+            <title>Configuring a .pypirc File for Easier Python Packaging</title>
+            <pubDate>Mon, 20 Aug 2018 16:00:00 -0000</pubDate>
+            <dc:creator>Chris Hranj</dc:creator>
+            <description><![CDATA[Configuring a .pypirc File for Easier Python Packaging]]></description>
+            <guid isPermaLink="true">https://truveris.github.io/articles/configuring-pypirc/</guid>
+            <link>https://truveris.github.io/articles/configuring-pypirc/</link>
+        </item>
+        <item>
             <media:thumbnail url="https://truveris.github.io/lib/img/server.svg" />
             <title>Verify Travis CI Webhook Notifications with Node.js</title>
             <pubDate>Mon, 02 Oct 2017 00:00:00 -0000</pubDate>
